@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>PhishGuard | Analysis Result</title>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="header">
+            <div class="logo">🛡️</div>
+
+            <h1>PhishGuard</h1>
+
+            <p>
+                AI-powered phishing detection for websites and emails
+            </p>
+        </header>
+
+
+        <main class="result-card">
+
+            <div class="result-icon">
+                🔍
+            </div>
+
+            <h2>Analysis Result</h2>
+
+            <div class="result-status">
+                Analysis Complete
+            </div>
+
+            <div class="risk-score">
+    <span>Risk Score</span>
+    <strong>{{ risk_score }}</strong>
+    <small>/ 100</small>
+</div>
+
+
+<!-- AI Detection Result -->
+<div class="ai-result">
+
+    <h3>🤖 AI Detection</h3>
+
+    <div class="ai-status">
+        {{ ai_status }}
+    </div>
+
+    <div class="ai-confidence">
+        <span>Phishing Probability</span>
+        <strong>{{ ai_confidence }}%</strong>
+    </div>
+
+    <div class="ai-confidence">
+        <span>Legitimate Probability</span>
+        <strong>{{ legitimate_probability }}%</strong>
+    </div>
+
+</div>
+
+            <div class="result-details">
+
+                <h3>Analyzed Input</h3>
+
+                <div class="analyzed-input">
+                    {{ analyzed_input }}
+                </div>
+
+            </div>
+
+
+            <div class="indicators">
+
+                <h3>Detection Indicators</h3>
+
+                {% if indicators %}
+
+                    {% for indicator in indicators %}
+
+                    <div class="indicator">
+                        🔎 {{ indicator }}
+                    </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="indicator">
+                        ✓ No indicators detected
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="explanation">
+
+                <h3>Analysis Explanation</h3>
+
+                <p>
+                    {{ explanation }}
+                </p>
+
+            </div>
+
+
+            <a href="/" class="back-button">
+                ← Scan Another
+            </a>
+
+        </main>
+
+
+        <footer class="footer">
+
+            <p>
+                PhishGuard • AI-Based Phishing Website & Email Detection
+            </p>
+
+        </footer>
+
+    </div>
+
+</body>
+
+</html>

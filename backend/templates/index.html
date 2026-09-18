@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>PhishGuard | AI Phishing Detection</title>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="header">
+            <div class="logo">🛡️</div>
+
+            <h1>PhishGuard</h1>
+
+            <p>
+                AI-powered phishing detection for websites and emails
+            </p>
+        </header>
+
+
+        <main class="scanner-card">
+
+            <!-- Scanner Tabs -->
+            <div class="tabs">
+
+                <button
+                    class="tab"
+                    type="button"
+                    onclick="showWebsiteScanner()">
+                    🌐 Website Scanner
+                </button>
+
+                <button
+                    class="tab"
+                    type="button"
+                    onclick="showEmailScanner()">
+                    📧 Email Scanner
+                </button>
+
+            </div>
+
+
+            <!-- Website Scanner -->
+            <section id="website-scanner">
+
+                <h2 class="section-title">
+                    Analyze a Website
+                </h2>
+
+                <p class="section-description">
+                    Enter a website URL and our detection engine will analyze
+                    it for potential phishing indicators.
+                </p>
+
+                <form action="/check" method="POST">
+
+                    <div class="input-group">
+
+                        <input
+                            class="url-input"
+                            type="url"
+                            name="url"
+                            placeholder="https://example.com"
+                            required
+                        >
+
+                        <button
+                            class="scan-button"
+                            type="submit">
+                            🔍 Analyze URL
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- Email Scanner -->
+            <section id="email-scanner" style="display: none;">
+
+                <h2 class="section-title">
+                    Analyze an Email
+                </h2>
+
+                <p class="section-description">
+                    Paste an email below and our detection engine will
+                    analyze it for potential phishing indicators.
+                </p>
+
+               
+                <form action="/check-email" method="POST">
+
+    <textarea
+        class="email-input"
+        name="email"
+        placeholder="Paste the email content here..."
+        rows="10"
+        required></textarea>
+
+    <button
+        class="scan-button"
+        type="submit">
+        🔍 Analyze Email
+    </button>
+
+</form>
+
+            </section>
+
+
+            <!-- Features -->
+            <div class="features">
+
+                <div class="feature">
+                    <h3>🔎 Smart Analysis</h3>
+                    <p>
+                        Examines URLs, text and other phishing indicators.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <h3>🤖 AI Detection</h3>
+                    <p>
+                        Machine-learning models will classify potential threats.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <h3>📊 Risk Assessment</h3>
+                    <p>
+                        Provides a risk score with understandable explanations.
+                    </p>
+                </div>
+
+            </div>
+
+        </main>
+
+
+        <footer class="footer">
+            <p>
+                PhishGuard • AI-Based Phishing Website & Email Detection
+            </p>
+        </footer>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
