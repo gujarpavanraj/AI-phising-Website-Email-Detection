@@ -26,3 +26,5 @@ dist/
 
 # Raw dataset
 *.xlsx
+database/PhiUSIIL_Phishing_URL_Dataset.csv
+database/email_dataset.csv

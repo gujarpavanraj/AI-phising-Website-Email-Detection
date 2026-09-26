@@ -2,6 +2,7 @@ import re
 
 
 def extract_email_features(email):
+
     features = {}
 
     email_lower = email.lower()
@@ -10,7 +11,11 @@ def extract_email_features(email):
     features["email_length"] = len(email)
 
     # 2. Number of URLs
-    urls = re.findall(r"https?://\S+|www\.\S+", email_lower)
+    urls = re.findall(
+        r"https?://\S+|www\.\S+",
+        email_lower
+    )
+
     features["url_count"] = len(urls)
 
     # 3. Suspicious keywords
