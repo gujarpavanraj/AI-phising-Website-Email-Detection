@@ -9,781 +9,15 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
-
-    <style>
-
-        /* =====================================================
-           RESET
-        ===================================================== */
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-
-        /* =====================================================
-           BODY
-        ===================================================== */
-
-        body {
-            font-family:
-                Inter,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-            background:
-                radial-gradient(
-                    circle at top left,
-                    #172554,
-                    #080d1d 45%,
-                    #050816
-                );
-
-            color: #ffffff;
-
-            min-height: 100vh;
-
-            padding: 40px 20px;
-        }
-
-
-        /* =====================================================
-           MAIN CONTAINER
-        ===================================================== */
-
-        .container {
-            width: 100%;
-            max-width: 900px;
-            margin: auto;
-        }
-
-
-        /* =====================================================
-           HEADER
-        ===================================================== */
-
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-
-        .logo {
-            width: 70px;
-            height: 70px;
-
-            margin: auto;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 22px;
-
-            font-size: 34px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #2563eb,
-                    #7c3aed
-                );
-
-            box-shadow:
-                0 15px 40px rgba(37, 99, 235, 0.35);
-        }
-
-
-        .header h1 {
-            margin-top: 16px;
-
-            font-size: 34px;
-            font-weight: 800;
-
-            letter-spacing: -1px;
-        }
-
-
-        .header p {
-            margin-top: 8px;
-
-            color: #94a3b8;
-
-            font-size: 15px;
-        }
-
-
-        /* =====================================================
-           RESULT CARD
-        ===================================================== */
-
-        .result-card {
-            background:
-                rgba(15, 23, 42, 0.88);
-
-            border:
-                1px solid rgba(148, 163, 184, 0.12);
-
-            border-radius: 28px;
-
-            padding: 30px;
-
-            box-shadow:
-                0 25px 80px rgba(0, 0, 0, 0.45);
-
-            backdrop-filter: blur(18px);
-        }
-
-
-        /* =====================================================
-           RESULT HEADER
-        ===================================================== */
-
-        .result-icon {
-            width: 62px;
-            height: 62px;
-
-            margin: auto;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 20px;
-
-            background:
-                rgba(37, 99, 235, 0.18);
-
-            border:
-                1px solid rgba(59, 130, 246, 0.25);
-
-            font-size: 28px;
-        }
-
-
-        .result-card > h2 {
-            text-align: center;
-
-            font-size: 28px;
-
-            margin-top: 15px;
-        }
-
-
-        .result-status {
-            width: fit-content;
-
-            margin: 10px auto 28px;
-
-            padding: 7px 15px;
-
-            border-radius: 999px;
-
-            background:
-                rgba(16, 185, 129, 0.15);
-
-            color: #34d399;
-
-            font-size: 13px;
-            font-weight: 700;
-
-            border:
-                1px solid rgba(52, 211, 153, 0.2);
-        }
-
-
-        /* =====================================================
-           COMMON SECTIONS
-        ===================================================== */
-
-        .risk-score,
-        .final-result,
-        .ai-result,
-        .result-details,
-        .indicators,
-        .explanation {
-
-            margin-top: 18px;
-
-            border-radius: 20px;
-
-            background:
-                rgba(30, 41, 59, 0.62);
-
-            border:
-                1px solid rgba(148, 163, 184, 0.10);
-        }
-
-
-        /* =====================================================
-           RISK SCORE
-        ===================================================== */
-
-        .risk-score {
-            padding: 25px;
-
-            text-align: center;
-        }
-
-
-        .risk-score > span {
-            display: block;
-
-            color: #94a3b8;
-
-            font-size: 14px;
-            font-weight: 600;
-
-            margin-bottom: 7px;
-        }
-
-
-        .risk-score strong {
-            font-size: 58px;
-
-            line-height: 1;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #38bdf8,
-                    #60a5fa,
-                    #818cf8
-                );
-
-            background-clip: text;
-            -webkit-background-clip: text;
-
-            -webkit-text-fill-color: transparent;
-        }
-
-
-        .risk-score small {
-            color: #64748b;
-
-            font-size: 18px;
-
-            margin-left: 5px;
-        }
-
-
-        /* =====================================================
-           RISK METER
-        ===================================================== */
-
-        .risk-meter {
-            margin-top: 28px;
-
-            position: relative;
-
-            padding:
-                0 10px 35px;
-        }
-
-
-        .risk-meter-track {
-            width: 100%;
-            height: 10px;
-
-            border-radius: 20px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #22c55e 0%,
-                    #84cc16 25%,
-                    #facc15 50%,
-                    #fb923c 75%,
-                    #ef4444 100%
-                );
-
-            position: relative;
-
-            overflow: visible;
-        }
-
-
-        /* =====================================================
-           RISK MARKER
-        ===================================================== */
-
-        .risk-meter-marker {
-            position: absolute;
-
-            top: 50%;
-
-            left: 0%;
-
-            width: 22px;
-            height: 22px;
-
-            transform:
-                translate(-50%, -50%);
-
-            background: #ffffff;
-
-            border:
-                4px solid #38bdf8;
-
-            border-radius: 50%;
-
-            box-shadow:
-                0 0 0 4px rgba(56, 189, 248, 0.20),
-                0 0 16px rgba(56, 189, 248, 0.85);
-
-            transition:
-                left 0.8s ease;
-
-            z-index: 5;
-        }
-
-
-        /* =====================================================
-           RISK SCALE
-        ===================================================== */
-
-        .risk-scale {
-            display: flex;
-
-            justify-content: space-between;
-            align-items: center;
-
-            margin-top: 14px;
-
-            font-size: 14px;
-
-            font-weight: 700;
-        }
-
-
-        .risk-scale span:first-child {
-            color: #22c55e;
-        }
-
-
-        .risk-scale span:nth-child(2) {
-            color: #facc15;
-        }
-
-
-        .risk-scale span:last-child {
-            color: #ef4444;
-        }
-
-
-        /* =====================================================
-           FINAL RESULT
-        ===================================================== */
-
-        .final-result {
-            padding: 25px;
-
-            text-align: center;
-        }
-
-
-        .final-result h3 {
-            color: #cbd5e1;
-
-            font-size: 15px;
-
-            margin-bottom: 15px;
-        }
-
-
-        .final-risk {
-            display: inline-block;
-
-            padding: 11px 22px;
-
-            border-radius: 999px;
-
-            font-size: 17px;
-
-            font-weight: 800;
-        }
-
-
-        .final-result p {
-            margin-top: 10px;
-
-            color: #94a3b8;
-
-            font-size: 14px;
-        }
-
-
-        /* LOW */
-
-        .low-risk {
-            color: #34d399;
-
-            background:
-                rgba(16, 185, 129, 0.12);
-
-            border:
-                1px solid rgba(52, 211, 153, 0.25);
-        }
-
-
-        /* MEDIUM */
-
-        .medium-risk {
-            color: #fbbf24;
-
-            background:
-                rgba(245, 158, 11, 0.12);
-
-            border:
-                1px solid rgba(251, 191, 36, 0.25);
-        }
-
-
-        /* HIGH */
-
-        .high-risk {
-            color: #f87171;
-
-            background:
-                rgba(239, 68, 68, 0.12);
-
-            border:
-                1px solid rgba(248, 113, 113, 0.25);
-        }
-
-
-        /* =====================================================
-           AI DETECTION
-        ===================================================== */
-
-        .ai-result {
-            padding: 25px;
-
-            border:
-                1px solid rgba(59, 130, 246, 0.35);
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(30, 64, 175, 0.35),
-                    rgba(15, 23, 42, 0.75)
-                );
-        }
-
-
-        .ai-result h3 {
-            font-size: 18px;
-
-            margin-bottom: 16px;
-        }
-
-
-        .ai-label {
-            color: #94a3b8;
-
-            font-size: 12px;
-
-            font-weight: 600;
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.7px;
-
-            margin-bottom: 7px;
-        }
-
-
-        .ai-status {
-            padding: 13px 16px;
-
-            border-radius: 12px;
-
-            background:
-                rgba(37, 99, 235, 0.20);
-
-            border-left:
-                3px solid #38bdf8;
-
-            color: #e0f2fe;
-
-            font-weight: 700;
-
-            margin-bottom: 20px;
-        }
-
-
-        .ai-confidence {
-            display: flex;
-
-            justify-content: space-between;
-            align-items: center;
-
-            padding: 13px 0;
-
-            border-bottom:
-                1px solid rgba(148, 163, 184, 0.08);
-        }
-
-
-        .ai-confidence:last-child {
-            border-bottom: none;
-        }
-
-
-        .ai-confidence span {
-            color: #cbd5e1;
-
-            font-size: 14px;
-        }
-
-
-        .ai-confidence strong {
-            color: #60a5fa;
-
-            font-size: 15px;
-        }
-
-
-        /* =====================================================
-           DETAILS / INDICATORS / EXPLANATION
-        ===================================================== */
-
-        .result-details,
-        .indicators,
-        .explanation {
-
-            padding: 23px;
-        }
-
-
-        .result-details h3,
-        .indicators h3,
-        .explanation h3 {
-
-            font-size: 17px;
-
-            margin-bottom: 15px;
-        }
-
-
-        /* =====================================================
-           ANALYZED INPUT
-        ===================================================== */
-
-        .analyzed-input {
-            padding: 16px;
-
-            border-radius: 12px;
-
-            background:
-                rgba(2, 6, 23, 0.65);
-
-            color: #cbd5e1;
-
-            font-size: 14px;
-
-            line-height: 1.6;
-
-            word-break: break-word;
-
-            border:
-                1px solid rgba(148, 163, 184, 0.08);
-        }
-
-
-        /* =====================================================
-           INDICATORS
-        ===================================================== */
-
-        .indicator {
-            padding: 13px 15px;
-
-            margin-top: 9px;
-
-            border-radius: 12px;
-
-            background:
-                rgba(37, 99, 235, 0.10);
-
-            border-left:
-                3px solid #38bdf8;
-
-            color: #cbd5e1;
-
-            font-size: 14px;
-        }
-
-
-        /* =====================================================
-           EXPLANATION
-        ===================================================== */
-
-        .explanation p {
-            color: #94a3b8;
-
-            line-height: 1.7;
-
-            font-size: 14px;
-        }
-
-
-        /* =====================================================
-           DOWNLOAD BUTTON
-        ===================================================== */
-
-        form {
-            margin-top: 22px;
-        }
-
-
-        .download-button {
-            width: 100%;
-
-            border: none;
-
-            padding: 15px;
-
-            border-radius: 14px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #2563eb,
-                    #4f46e5
-                );
-
-            color: white;
-
-            font-size: 15px;
-
-            font-weight: 700;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 10px 30px rgba(37, 99, 235, 0.25);
-
-            transition:
-                transform 0.2s,
-                box-shadow 0.2s;
-        }
-
-
-        .download-button:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 15px 35px rgba(37, 99, 235, 0.35);
-        }
-
-
-        /* =====================================================
-           BACK BUTTON
-        ===================================================== */
-
-        .back-button {
-            display: block;
-
-            width: fit-content;
-
-            margin: 15px auto 0;
-
-            padding: 11px 18px;
-
-            border-radius: 12px;
-
-            background:
-                rgba(51, 65, 85, 0.6);
-
-            border:
-                1px solid rgba(148, 163, 184, 0.12);
-
-            color: #cbd5e1;
-
-            text-decoration: none;
-
-            font-size: 14px;
-
-            transition:
-                background 0.2s,
-                transform 0.2s;
-        }
-
-
-        .back-button:hover {
-            background:
-                rgba(71, 85, 105, 0.8);
-
-            transform: translateY(-1px);
-        }
-
-
-        /* =====================================================
-           FOOTER
-        ===================================================== */
-
-        .footer {
-            text-align: center;
-
-            margin-top: 25px;
-
-            color: #64748b;
-
-            font-size: 12px;
-        }
-
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        @media (max-width: 600px) {
-
-            body {
-                padding: 20px 12px;
-            }
-
-
-            .result-card {
-                padding: 18px;
-
-                border-radius: 22px;
-            }
-
-
-            .header h1 {
-                font-size: 28px;
-            }
-
-
-            .risk-score strong {
-                font-size: 48px;
-            }
-
-
-            .ai-confidence {
-                gap: 10px;
-            }
-
-        }
-
-    </style>
-
 </head>
-
 
 <body>
 
 <div class="container">
 
-
-    <!-- =====================================================
+    <!-- =========================
          HEADER
-    ===================================================== -->
+    ========================== -->
 
     <header class="header">
 
@@ -802,33 +36,30 @@
     </header>
 
 
-
-    <!-- =====================================================
+    <!-- =========================
          RESULT CARD
-    ===================================================== -->
+    ========================== -->
 
     <main class="result-card">
 
+        <!-- Result Icon -->
 
         <div class="result-icon">
             🔍
         </div>
 
-
         <h2>
             Analysis Result
         </h2>
-
 
         <div class="result-status">
             ✓ Analysis Complete
         </div>
 
 
-
-        <!-- =================================================
+        <!-- =========================
              RISK SCORE
-        ================================================= -->
+        ========================== -->
 
         <div class="risk-score">
 
@@ -836,19 +67,20 @@
                 Overall Risk Score
             </span>
 
+            <div class="risk-number">
 
-            <strong>
-                {{ risk_score }}
-            </strong>
+                <strong>
+                    {{ risk_score }}
+                </strong>
+
+                <small>
+                    / 100
+                </small>
+
+            </div>
 
 
-            <small>
-                / 100
-            </small>
-
-
-
-            <!-- RISK METER -->
+            <!-- Risk Meter -->
 
             <div class="risk-meter">
 
@@ -883,10 +115,9 @@
         </div>
 
 
-
-        <!-- =================================================
-             FINAL SECURITY ASSESSMENT
-        ================================================= -->
+        <!-- =========================
+             OVERALL SECURITY ASSESSMENT
+        ========================== -->
 
         <div class="final-result">
 
@@ -932,17 +163,15 @@
         </div>
 
 
-
-        <!-- =================================================
+        <!-- =========================
              AI DETECTION
-        ================================================= -->
+        ========================== -->
 
         <div class="ai-result">
 
             <h3>
                 🤖 AI Detection
             </h3>
-
 
             <div class="ai-label">
                 AI Model Assessment
@@ -984,7 +213,7 @@
                 </span>
 
                 <strong>
-                    {{ legitimate_probability }}%
+                    {{ 100 - ai_confidence }}%
                 </strong>
 
             </div>
@@ -992,10 +221,9 @@
         </div>
 
 
-
-        <!-- =================================================
+        <!-- =========================
              ANALYZED INPUT
-        ================================================= -->
+        ========================== -->
 
         <div class="result-details">
 
@@ -1003,20 +231,16 @@
                 📋 Analyzed Input
             </h3>
 
-
             <div class="analyzed-input">
-
                 {{ analyzed_input }}
-
             </div>
 
         </div>
 
 
-
-        <!-- =================================================
+        <!-- =========================
              DETECTION INDICATORS
-        ================================================= -->
+        ========================== -->
 
         <div class="indicators">
 
@@ -1030,9 +254,7 @@
                 {% for indicator in indicators %}
 
                     <div class="indicator">
-
                         🔎 {{ indicator }}
-
                     </div>
 
                 {% endfor %}
@@ -1040,9 +262,7 @@
             {% else %}
 
                 <div class="indicator">
-
                     ✓ No major phishing indicators detected
-
                 </div>
 
             {% endif %}
@@ -1050,17 +270,15 @@
         </div>
 
 
-
-        <!-- =================================================
+        <!-- =========================
              ANALYSIS EXPLANATION
-        ================================================= -->
+        ========================== -->
 
         <div class="explanation">
 
             <h3>
                 💡 Analysis Explanation
             </h3>
-
 
             <p>
                 {{ explanation }}
@@ -1069,23 +287,20 @@
         </div>
 
 
-
-        <!-- =================================================
+        <!-- =========================
              DOWNLOAD SECURITY REPORT
-        ================================================= -->
+        ========================== -->
 
         <form
             action="{{ url_for('download_report') }}"
             method="POST"
         >
 
-
             <input
                 type="hidden"
                 name="input_type"
-                value="{{ input_type }}"
+                value="{{ input_type | default('website') }}"
             >
-
 
             <input
                 type="hidden"
@@ -1093,13 +308,11 @@
                 value="{{ analyzed_input }}"
             >
 
-
             <input
                 type="hidden"
                 name="risk_score"
                 value="{{ risk_score }}"
             >
-
 
             <input
                 type="hidden"
@@ -1107,48 +320,41 @@
                 value="{{ risk_level }}"
             >
 
-
             <input
                 type="hidden"
                 name="status"
-                value="{{ status }}"
+                value="{{ status | default('Analysis Complete') }}"
             >
-
 
             <input
                 type="hidden"
                 name="ai_status"
-                value="{{ ai_status }}"
+                value="{{ ai_status | default('') }}"
             >
-
 
             <input
                 type="hidden"
                 name="ai_confidence"
-                value="{{ ai_confidence }}"
+                value="{{ ai_confidence | default(0) }}"
             >
-
 
             <input
                 type="hidden"
                 name="legitimate_probability"
-                value="{{ legitimate_probability }}"
+                value="{{ 100 - ai_confidence }}"
             >
-
 
             <input
                 type="hidden"
                 name="ml_risk_score"
-                value="{{ ml_risk_score }}"
+                value="{{ ml_risk_score | default(0) }}"
             >
-
 
             <input
                 type="hidden"
                 name="rule_risk_score"
-                value="{{ rule_risk_score }}"
+                value="{{ rule_risk_score | default(risk_score) }}"
             >
-
 
             <input
                 type="hidden"
@@ -1176,36 +382,29 @@
                 type="submit"
                 class="download-button"
             >
-
                 📄 Download Security Report
-
             </button>
 
         </form>
 
 
-
-        <!-- =================================================
+        <!-- =========================
              SCAN ANOTHER
-        ================================================= -->
+        ========================== -->
 
         <a
             href="/"
             class="back-button"
         >
-
             ← Scan Another
-
         </a>
-
 
     </main>
 
 
-
-    <!-- =====================================================
+    <!-- =========================
          FOOTER
-    ===================================================== -->
+    ========================== -->
 
     <footer class="footer">
 
@@ -1215,56 +414,81 @@
 
     </footer>
 
-
 </div>
 
 
-
-<!-- =========================================================
+<!-- =========================
      RISK METER JAVASCRIPT
-========================================================= -->
+========================== -->
 
 <script>
 
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        const marker =
-            document.getElementById("riskMarker");
+    const marker =
+        document.getElementById("riskMarker");
 
-
-        const riskScore =
-            Number("{{ risk_score | default(0) }}");
-
-
-        if (!marker) {
-            return;
-        }
+    const riskScore =
+        Number("{{ risk_score | default(0) }}");
 
 
-        /* Keep the value between 0 and 100 */
-
-        const safeRisk =
-            Math.max(
-                0,
-                Math.min(
-                    100,
-                    riskScore
-                )
-            );
+    if (!marker) {
+        return;
+    }
 
 
-        /*
-            Move the marker according to
-            the actual final risk score.
-        */
+    /* Keep risk between 0 and 100 */
 
-        marker.style.left =
-            safeRisk + "%";
+    const safeRisk =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                riskScore
+            )
+        );
 
-    });
+
+    /*
+        Move the ball according
+        to the actual risk score
+    */
+
+    marker.style.left =
+        safeRisk + "%";
+
+
+    /*
+        Change ball colour
+        according to risk
+    */
+
+    marker.classList.remove(
+        "low",
+        "medium",
+        "high"
+    );
+
+
+    if (safeRisk < 40) {
+
+        marker.classList.add("low");
+
+    }
+    else if (safeRisk < 70) {
+
+        marker.classList.add("medium");
+
+    }
+    else {
+
+        marker.classList.add("high");
+
+    }
+
+});
 
 </script>
-
 
 </body>
 

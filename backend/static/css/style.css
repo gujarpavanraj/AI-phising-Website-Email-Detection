@@ -1,702 +1,1515 @@
-/* =====================================================
-   GLOBAL RESET
-===================================================== */
+/* =========================================================
+   PHISHGUARD
+   GREEN FOREST CYBERSECURITY THEME
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
+
+
+html {
+    scroll-behavior: smooth;
+}
+
 
 body {
-    font-family: Arial, sans-serif;
-    background: #0b1220;
-    color: #ffffff;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
     min-height: 100vh;
+
+    color: #f0fff7;
+
+    background:
+        linear-gradient(
+            rgba(0, 35, 25, 0.05),
+            rgba(0, 35, 25, 0.05)
+        ),
+        url("../images/cyber-bg.png");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-attachment: fixed;
+
+    padding: 50px 20px;
 }
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
 
 .container {
-    width: 90%;
-    max-width: 1000px;
-    margin: auto;
-    padding: 40px 20px;
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
 }
 
 
-/* =====================================================
+/* =========================================================
    HEADER
-===================================================== */
+   ========================================================= */
 
 .header {
+
     text-align: center;
-    margin-bottom: 40px;
+
+    margin-bottom: 35px;
 }
+
 
 .logo {
-    font-size: 42px;
-    margin-bottom: 10px;
-}
 
-.header h1 {
-    font-size: 36px;
-    margin-bottom: 12px;
-}
+    width: 58px;
 
-.header p {
-    color: #a9b4c7;
-    font-size: 17px;
-}
+    height: 58px;
 
-
-/* =====================================================
-   SCANNER CARD
-===================================================== */
-
-.scanner-card {
-    background: #121c2e;
-    border: 1px solid #26344d;
-    border-radius: 18px;
-    padding: 35px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-}
-
-
-/* =====================================================
-   TABS
-===================================================== */
-
-.tabs {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 30px;
-}
-
-.tab {
-    flex: 1;
-    padding: 14px;
-    border: 1px solid #34445f;
-    border-radius: 10px;
-    background: #18243a;
-    color: #ffffff;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.tab:hover {
-    background: #22314b;
-}
-
-
-/* =====================================================
-   SECTION
-===================================================== */
-
-.section-title {
-    font-size: 22px;
-    margin-bottom: 8px;
-}
-
-.section-description {
-    color: #9ca9bd;
-    margin-bottom: 20px;
-}
-
-
-/* =====================================================
-   URL INPUT
-===================================================== */
-
-.input-group {
-    display: flex;
-    gap: 12px;
-}
-
-.url-input {
-    flex: 1;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #34445f;
-    background: #0d1626;
-    color: #ffffff;
-    font-size: 15px;
-    outline: none;
-}
-
-.url-input:focus {
-    border-color: #6c8cff;
-}
-
-.scan-button {
-    padding: 15px 25px;
-    border: none;
-    border-radius: 10px;
-    background: #4263eb;
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.scan-button:hover {
-    background: #364fc7;
-}
-
-
-/* =====================================================
-   FEATURES
-===================================================== */
-
-.features {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-top: 35px;
-}
-
-.feature {
-    background: #18243a;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #26344d;
-}
-
-.feature h3 {
-    margin-bottom: 8px;
-}
-
-.feature p {
-    color: #9ca9bd;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-.footer {
-    text-align: center;
-    color: #68758a;
-    margin-top: 35px;
-    font-size: 14px;
-}
-
-
-/* =====================================================
-   EMAIL SCANNER
-===================================================== */
-
-.email-input {
-    width: 100%;
-    min-height: 220px;
-    padding: 18px;
-    margin-top: 15px;
-    margin-bottom: 18px;
-
-    background: rgba(10, 20, 45, 0.8);
-    border: 1px solid rgba(80, 140, 255, 0.35);
-    border-radius: 12px;
-
-    color: #ffffff;
-    font-size: 15px;
-    font-family: inherit;
-
-    resize: vertical;
-    outline: none;
-}
-
-.email-input::placeholder {
-    color: #8b9bb8;
-}
-
-.email-input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
-}
-
-#email-scanner .scan-button {
-    margin-top: 5px;
-}
-
-
-/* =====================================================
-   RESULT PAGE
-===================================================== */
-
-.result-card {
-    max-width: 850px;
-    margin: 40px auto;
-    padding: 40px;
-
-    background: rgba(15, 25, 55, 0.85);
-
-    border: 1px solid rgba(80, 140, 255, 0.25);
-    border-radius: 20px;
-
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-}
-
-
-/* =====================================================
-   RESULT ICON
-===================================================== */
-
-.result-icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 20px;
+    margin: 0 auto 14px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
-    background: rgba(59, 130, 246, 0.15);
     border-radius: 50%;
 
-    font-size: 32px;
-}
+    background:
+        rgba(0, 70, 45, 0.55);
 
-.result-card h2 {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 30px;
-}
+    border:
+        1px solid rgba(0, 255, 150, 0.45);
 
+    font-size: 28px;
 
-/* =====================================================
-   RESULT STATUS
-===================================================== */
-
-.result-status {
-    width: fit-content;
-    margin: 0 auto 30px;
-    padding: 8px 18px;
-
-    border-radius: 20px;
-
-    background: rgba(34, 197, 94, 0.15);
-    color: #4ade80;
-
-    font-weight: 600;
-    font-size: 14px;
+    box-shadow:
+        0 0 25px rgba(0, 255, 150, 0.12);
 }
 
 
-/* =====================================================
-   RISK SCORE
-===================================================== */
+.header h1 {
 
-.risk-score {
-    text-align: center;
+    font-size: 42px;
 
-    margin: 25px 0;
-    padding: 25px;
+    font-weight: 750;
 
-    background: rgba(5, 15, 35, 0.7);
-    border-radius: 16px;
+    letter-spacing: -1px;
 
-    border: 1px solid rgba(80, 140, 255, 0.2);
-}
+    color: #f4fff9;
 
-.risk-score span {
-    display: block;
-    color: #9aa9c7;
-    font-size: 14px;
     margin-bottom: 8px;
 }
 
-.risk-score strong {
-    font-size: 52px;
-    color: #60a5fa;
+
+.header p {
+
+    font-size: 15px;
+
+    color: #a7c9ba;
+
+    letter-spacing: 0.2px;
 }
 
-.risk-score small {
-    color: #8b9bb8;
-    font-size: 18px;
-}
 
+/* =========================================================
+   MAIN SCANNER CARD
+   Used by index.html
+   ========================================================= */
 
-/* =====================================================
-   RISK METER
-===================================================== */
+.scanner-card {
 
-.risk-meter {
     width: 100%;
-    margin-top: 20px;
-    position: relative;
-}
 
-.risk-meter-track {
-    position: relative;
-    width: 100%;
-    height: 12px;
+    padding: 32px;
 
-    border-radius: 20px;
+    background:
+        rgba(3, 31, 21, 0.78);
 
-    background: linear-gradient(
-        90deg,
-        #22c55e 0%,
-        #facc15 50%,
-        #ef4444 100%
-    );
-}
-
-
-/* Moving Ball */
-
-.risk-meter-marker {
-    position: absolute;
-
-    top: 50%;
-    left: 0%;
-
-    width: 22px;
-    height: 22px;
-
-    background: #ffffff;
-
-    border: 4px solid #38bdf8;
-
-    border-radius: 50%;
-
-    transform: translate(-50%, -50%);
-
-    box-shadow:
-        0 0 10px rgba(56, 189, 248, 0.8),
-        0 0 20px rgba(56, 189, 248, 0.5);
-
-    transition: left 0.8s ease;
-
-    z-index: 5;
-}
-
-
-/* Risk Labels */
-
-.risk-scale {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    margin-top: 14px;
-
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.risk-scale span:nth-child(1) {
-    color: #22c55e;
-}
-
-.risk-scale span:nth-child(2) {
-    color: #facc15;
-}
-
-.risk-scale span:nth-child(3) {
-    color: #ef4444;
-}
-
-
-
-
-/* =====================================================
-   RESULT SECTIONS
-===================================================== */
-
-.result-details,
-.indicators,
-.explanation {
-    margin-top: 25px;
-    padding: 24px;
-
-    background: rgba(5, 15, 35, 0.65);
-
-    border-radius: 14px;
-
-    border: 1px solid rgba(80, 140, 255, 0.15);
-}
-
-.result-details h3,
-.indicators h3,
-.explanation h3 {
-    margin-bottom: 15px;
-    font-size: 18px;
-}
-
-
-/* =====================================================
-   ANALYZED INPUT
-===================================================== */
-
-.analyzed-input {
-    padding: 14px;
-
-    background: rgba(0, 0, 0, 0.25);
-
-    border-radius: 10px;
-
-    color: #cbd5e1;
-
-    word-break: break-word;
-}
-
-
-/* =====================================================
-   DETECTION INDICATORS
-===================================================== */
-
-.indicator {
-    padding: 12px 15px;
-    margin-top: 10px;
-
-    background: rgba(59, 130, 246, 0.08);
-
-    border-left: 3px solid #3b82f6;
-
-    border-radius: 8px;
-
-    color: #cbd5e1;
-}
-
-
-/* =====================================================
-   EXPLANATION
-===================================================== */
-
-.explanation p {
-    color: #aebbd2;
-    line-height: 1.7;
-}
-
-
-/* =====================================================
-   AI DETECTION CARD
-===================================================== */
-
-.ai-result {
-    margin-top: 24px;
-    padding: 24px;
+    border:
+        1px solid rgba(74, 255, 174, 0.20);
 
     border-radius: 18px;
 
-    background: rgba(20, 55, 130, 0.45);
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.45);
 
-    border: 1px solid rgba(100, 220, 255, 0.25);
-
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
 }
 
-.ai-result h3 {
-    margin: 0 0 16px 0;
-    font-size: 1.2rem;
-}
 
-.ai-status {
-    padding: 14px 18px;
+/* =========================================================
+   SCANNER TABS
+   ========================================================= */
 
-    border-radius: 12px;
+.tabs {
 
-    background: rgba(40, 100, 200, 0.35);
-
-    border-left: 4px solid #55eaff;
-
-    font-weight: 600;
-
-    margin-bottom: 14px;
-}
-
-.ai-confidence {
     display: flex;
 
-    justify-content: space-between;
-    align-items: center;
+    gap: 12px;
 
-    padding: 14px 18px;
+    margin-bottom: 32px;
 
-    border-radius: 12px;
+    padding-bottom: 16px;
 
-    background: rgba(10, 35, 90, 0.4);
-}
-
-.ai-confidence span {
-    font-weight: 500;
-}
-
-.ai-confidence strong {
-    font-size: 1.25rem;
+    border-bottom:
+        1px solid rgba(95, 220, 160, 0.16);
 }
 
 
-/* =====================================================
-   FINAL RESULT
-===================================================== */
+.tab {
 
-.final-result {
-    margin: 25px 0;
-    padding: 20px;
-
-    text-align: center;
-
-    border-radius: 15px;
-
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.final-result h3 {
-    margin-bottom: 12px;
-}
-
-.final-risk {
-    font-size: 24px;
-    font-weight: 700;
-
-    margin: 10px 0;
-}
-
-.final-result p {
-    margin: 5px 0;
-    opacity: 0.8;
-}
-
-
-/* Risk colors */
-
-.low-risk {
-    color: #39e58c;
-}
-
-.medium-risk {
-    color: #ffb347;
-}
-
-.high-risk {
-    color: #ff5c5c;
-}
-
-
-/* =====================================================
-   ASSESSMENT
-===================================================== */
-
-.ai-assessment {
-    margin-bottom: 18px;
-}
-
-.assessment-label {
-    display: block;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    margin-bottom: 8px;
-
-    opacity: 0.85;
-}
-
-
-/* =====================================================
-   DOWNLOAD REPORT
-===================================================== */
-
-.download-button {
-    width: 100%;
+    flex: 1;
 
     padding: 14px 20px;
 
-    margin-top: 25px;
+    border-radius: 8px;
 
-    border: none;
-    border-radius: 10px;
+    border:
+        1px solid rgba(75, 230, 155, 0.30);
 
-    background: linear-gradient(
-        135deg,
-        #2563eb,
-        #4f46e5
-    );
+    background:
+        rgba(5, 55, 36, 0.72);
 
-    color: white;
+    color: #dfffee;
 
-    font-size: 16px;
+    font-size: 15px;
+
     font-weight: 600;
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
-.download-button:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
+
+.tab:hover {
+
+    background:
+        rgba(8, 78, 50, 0.85);
+
+    border-color:
+        rgba(80, 255, 170, 0.55);
+
+    transform: translateY(-1px);
 }
 
 
-/* =====================================================
-   BACK BUTTON
-===================================================== */
+/* =========================================================
+   SECTION
+   ========================================================= */
 
-.back-button {
-    display: block;
+.section-title {
+
+    font-size: 27px;
+
+    font-weight: 700;
+
+    color: #f4fff9;
+
+    margin-bottom: 8px;
+}
+
+
+.section-description {
+
+    color: #a9c7b9;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    margin-bottom: 24px;
+
+    max-width: 750px;
+}
+
+
+/* =========================================================
+   INPUT AREA
+   ========================================================= */
+
+.input-group {
+
+    display: flex;
+
+    gap: 12px;
+
+    width: 100%;
+}
+
+
+.url-input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: 52px;
+
+    padding: 0 16px;
+
+    border-radius: 8px;
+
+    border:
+        1px solid rgba(87, 230, 163, 0.28);
+
+    background:
+        rgba(1, 20, 13, 0.72);
+
+    color: #effff7;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+.url-input::placeholder {
+
+    color: #789789;
+}
+
+
+.url-input:focus {
+
+    border-color:
+        rgba(71, 255, 166, 0.65);
+
+    box-shadow:
+        0 0 0 3px rgba(45, 255, 155, 0.08);
+}
+
+
+/* =========================================================
+   EMAIL INPUT
+   ========================================================= */
+
+.email-input {
+
+    width: 100%;
+
+    padding: 16px;
+
+    margin-bottom: 15px;
+
+    resize: vertical;
+
+    border-radius: 8px;
+
+    border:
+        1px solid rgba(87, 230, 163, 0.28);
+
+    background:
+        rgba(1, 20, 13, 0.72);
+
+    color: #effff7;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    line-height: 1.5;
+
+    outline: none;
+}
+
+
+.email-input::placeholder {
+
+    color: #789789;
+}
+
+
+.email-input:focus {
+
+    border-color:
+        rgba(71, 255, 166, 0.65);
+
+    box-shadow:
+        0 0 0 3px rgba(45, 255, 155, 0.08);
+}
+
+
+/* =========================================================
+   SCAN BUTTON
+   ========================================================= */
+
+.scan-button {
+
+    height: 52px;
+
+    padding: 0 24px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        #087f52;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 6px 18px rgba(0, 120, 75, 0.20);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.scan-button:hover {
+
+    background:
+        #099b63;
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 8px 22px rgba(0, 150, 90, 0.25);
+}
+
+
+.scan-button:active {
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   FEATURES
+   ========================================================= */
+
+.features {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 16px;
+
+    margin-top: 34px;
+
+    padding-top: 28px;
+
+    border-top:
+        1px solid rgba(95, 220, 160, 0.14);
+}
+
+
+.feature {
+
+    padding: 22px;
+
+    min-height: 145px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(4, 49, 32, 0.62);
+
+    border:
+        1px solid rgba(80, 220, 155, 0.16);
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.feature:hover {
+
+    background:
+        rgba(5, 63, 41, 0.72);
+
+    border-color:
+        rgba(80, 240, 160, 0.30);
+
+    transform:
+        translateY(-2px);
+}
+
+
+.feature h3 {
+
+    font-size: 17px;
+
+    margin-bottom: 10px;
+
+    color: #eafff4;
+}
+
+
+.feature p {
+
+    color: #9fbeaf;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   RESULT PAGE
+   ========================================================= */
+
+.result-card {
+
+    width: min(900px, 92%);
+
+    margin: 35px auto 50px;
+
+    padding: 38px;
+
+    border-radius: 22px;
+
+    background:
+        rgba(3, 20, 15, 0.82);
+
+    border:
+        1px solid rgba(45, 190, 125, 0.25);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.55),
+        inset 0 0 30px rgba(0, 255, 150, 0.025);
+
+    backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   RESULT ICON
+   ========================================================= */
+
+.result-icon {
+
+    width: 65px;
+
+    height: 65px;
+
+    margin:
+        0 auto 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(20, 130, 85, 0.25);
+
+    border:
+        1px solid rgba(60, 220, 150, 0.45);
+
+    font-size: 30px;
+
+    box-shadow:
+        0 0 25px rgba(0, 255, 150, 0.08);
+}
+
+
+.result-card h2 {
+
+    text-align: center;
+
+    margin:
+        0 0 12px;
+
+    color: #f2fff9;
+
+    font-size: 2rem;
+}
+
+
+.result-status {
 
     width: fit-content;
 
-    margin: 30px auto 0;
+    margin:
+        0 auto 28px;
 
-    padding: 12px 24px;
+    padding:
+        8px 18px;
 
-    background: #2563eb;
+    border-radius: 20px;
 
-    color: white;
+    background:
+        rgba(25, 160, 100, 0.18);
 
-    text-decoration: none;
+    border:
+        1px solid rgba(60, 220, 150, 0.35);
 
-    border-radius: 10px;
+    color: #7fffc0;
 
     font-weight: 600;
-
-    transition: 0.2s ease;
 }
+
+
+/* =========================================================
+   RISK SCORE
+   ========================================================= */
+
+.risk-score {
+
+    padding: 28px;
+
+    margin-bottom: 22px;
+
+    text-align: center;
+
+    border-radius: 18px;
+
+    background:
+        rgba(8, 45, 32, 0.78);
+
+    border:
+        1px solid rgba(60, 220, 150, 0.18);
+}
+
+
+.risk-score > span {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #b9d9cb;
+
+    font-size: 0.95rem;
+
+    font-weight: 600;
+}
+
+
+.risk-number {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: baseline;
+
+    gap: 7px;
+}
+
+
+.risk-score strong {
+
+    font-size: 4rem;
+
+    line-height: 1;
+
+    color: #eafff4;
+}
+
+
+.risk-score small {
+
+    color: #8ca99d;
+
+    font-size: 1rem;
+}
+
+
+/* =========================================================
+   RISK METER
+   ========================================================= */
+
+.risk-meter {
+
+    margin-top: 30px;
+
+    position: relative;
+
+    padding:
+        0 12px 38px;
+}
+
+
+.risk-meter-track {
+
+    width: 100%;
+
+    height: 10px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #22c55e 0%,
+            #84cc16 25%,
+            #facc15 50%,
+            #fb923c 75%,
+            #ef4444 100%
+        );
+
+    position: relative;
+
+    overflow: visible;
+
+    box-shadow:
+        0 0 12px rgba(66, 217, 155, 0.12);
+}
+
+
+/* =========================================================
+   MOVING RISK BALL
+   ========================================================= */
+
+.risk-meter-marker {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 0%;
+
+    width: 25px;
+
+    height: 25px;
+
+    transform:
+        translate(-50%, -50%);
+
+    background:
+        #f3fff9;
+
+    border:
+        4px solid #42d99b;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 5px rgba(66, 217, 155, 0.15),
+        0 0 22px rgba(66, 217, 155, 0.85);
+
+    transition:
+        left 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+
+    z-index: 10;
+}
+
+
+/* LOW */
+
+.risk-meter-marker.low {
+
+    border-color:
+        #42d99b;
+
+    box-shadow:
+        0 0 0 5px rgba(66, 217, 155, 0.15),
+        0 0 22px rgba(66, 217, 155, 0.85);
+}
+
+
+/* MEDIUM */
+
+.risk-meter-marker.medium {
+
+    border-color:
+        #facc15;
+
+    box-shadow:
+        0 0 0 5px rgba(250, 204, 21, 0.15),
+        0 0 22px rgba(250, 204, 21, 0.85);
+}
+
+
+/* HIGH */
+
+.risk-meter-marker.high {
+
+    border-color:
+        #ef4444;
+
+    box-shadow:
+        0 0 0 5px rgba(239, 68, 68, 0.15),
+        0 0 22px rgba(239, 68, 68, 0.85);
+}
+
+
+/* =========================================================
+   RISK SCALE
+   ========================================================= */
+
+.risk-scale {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 15px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.risk-scale span:first-child {
+
+    color:
+        #42d99b;
+}
+
+
+.risk-scale span:nth-child(2) {
+
+    color:
+        #facc15;
+}
+
+
+.risk-scale span:last-child {
+
+    color:
+        #f87171;
+}
+
+
+/* =========================================================
+   FINAL SECURITY ASSESSMENT
+   ========================================================= */
+
+.final-result {
+
+    padding: 25px;
+
+    text-align: center;
+
+    margin-top: 22px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(7, 38, 28, 0.72);
+
+    border:
+        1px solid rgba(60, 220, 150, 0.16);
+}
+
+
+.final-result h3 {
+
+    color:
+        #eafff4;
+
+    font-size:
+        1.15rem;
+
+    margin-bottom:
+        16px;
+}
+
+
+.final-risk {
+
+    display: inline-block;
+
+    padding:
+        11px 22px;
+
+    border-radius:
+        999px;
+
+    font-size:
+        17px;
+
+    font-weight:
+        800;
+}
+
+
+/* LOW */
+
+.low-risk {
+
+    color:
+        #42d99b;
+
+    background:
+        rgba(25, 160, 100, 0.14);
+
+    border:
+        1px solid rgba(60, 220, 150, 0.30);
+}
+
+
+/* MEDIUM */
+
+.medium-risk {
+
+    color:
+        #facc15;
+
+    background:
+        rgba(245, 190, 20, 0.12);
+
+    border:
+        1px solid rgba(250, 204, 21, 0.30);
+}
+
+
+/* HIGH */
+
+.high-risk {
+
+    color:
+        #f87171;
+
+    background:
+        rgba(239, 68, 68, 0.12);
+
+    border:
+        1px solid rgba(248, 113, 113, 0.30);
+}
+
+
+.final-result p {
+
+    margin-top:
+        12px;
+
+    color:
+        #a7c9ba;
+
+    font-size:
+        14px;
+}
+
+
+/* =========================================================
+   AI DETECTION
+   ========================================================= */
+
+.ai-result {
+
+    margin-top:
+        22px;
+
+    padding:
+        25px;
+
+    border-radius:
+        18px;
+
+    background:
+        rgba(7, 45, 32, 0.78);
+
+    border:
+        1px solid rgba(60, 220, 150, 0.20);
+
+    box-shadow:
+        inset 0 0 25px rgba(0, 255, 150, 0.02);
+}
+
+
+.ai-result h3 {
+
+    margin:
+        0 0 18px;
+
+    color:
+        #eafff4;
+
+    font-size:
+        18px;
+}
+
+
+.ai-label {
+
+    color:
+        #8fb8a6;
+
+    font-size:
+        12px;
+
+    font-weight:
+        600;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.7px;
+
+    margin-bottom:
+        8px;
+}
+
+
+.ai-status {
+
+    padding:
+        15px 18px;
+
+    margin-bottom:
+        12px;
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(30, 150, 95, 0.16);
+
+    border-left:
+        4px solid #42d99b;
+
+    color:
+        #dffff0;
+
+    font-weight:
+        600;
+}
+
+
+.ai-confidence {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    padding:
+        14px 16px;
+
+    margin-top:
+        8px;
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(0, 0, 0, 0.20);
+
+    color:
+        #bcd5ca;
+}
+
+
+.ai-confidence strong {
+
+    color:
+        #75eeb5;
+
+    font-size:
+        16px;
+}
+
+
+/* =========================================================
+   ANALYZED INPUT
+   ========================================================= */
+
+.result-details {
+
+    margin-top:
+        22px;
+
+    padding:
+        25px;
+
+    border-radius:
+        18px;
+
+    background:
+        rgba(7, 38, 28, 0.72);
+
+    border:
+        1px solid rgba(60, 220, 150, 0.16);
+}
+
+
+.result-details h3 {
+
+    margin:
+        0 0 16px;
+
+    color:
+        #eafff4;
+
+    font-size:
+        1.15rem;
+}
+
+
+.analyzed-input {
+
+    padding:
+        18px;
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(0, 0, 0, 0.28);
+
+    border:
+        1px solid rgba(100, 220, 170, 0.12);
+
+    color:
+        #c8ddd4;
+
+    line-height:
+        1.6;
+
+    overflow-wrap:
+        anywhere;
+
+    word-break:
+        break-word;
+
+    font-size:
+        14px;
+}
+
+
+/* =========================================================
+   DETECTION INDICATORS
+   ========================================================= */
+
+.indicators {
+
+    margin-top:
+        22px;
+
+    padding:
+        25px;
+
+    border-radius:
+        18px;
+
+    background:
+        rgba(7, 38, 28, 0.72);
+
+    border:
+        1px solid rgba(60, 220, 150, 0.16);
+}
+
+
+.indicators h3 {
+
+    margin:
+        0 0 16px;
+
+    color:
+        #eafff4;
+
+    font-size:
+        1.15rem;
+}
+
+
+.indicator {
+
+    margin-bottom:
+        10px;
+
+    padding:
+        13px 16px;
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(20, 100, 70, 0.18);
+
+    border-left:
+        3px solid #42d99b;
+
+    color:
+        #d9eee6;
+
+    font-size:
+        14px;
+}
+
+
+.indicator:last-child {
+
+    margin-bottom:
+        0;
+}
+
+
+/* =========================================================
+   ANALYSIS EXPLANATION
+   ========================================================= */
+
+.explanation {
+
+    margin-top:
+        22px;
+
+    padding:
+        25px;
+
+    border-radius:
+        18px;
+
+    background:
+        rgba(7, 38, 28, 0.72);
+
+    border:
+        1px solid rgba(60, 220, 150, 0.16);
+}
+
+
+.explanation h3 {
+
+    margin:
+        0 0 16px;
+
+    color:
+        #eafff4;
+
+    font-size:
+        1.15rem;
+}
+
+
+.explanation p {
+
+    margin:
+        0;
+
+    color:
+        #c4d9d0;
+
+    line-height:
+        1.7;
+
+    font-size:
+        14px;
+}
+
+
+/* =========================================================
+   DOWNLOAD SECURITY REPORT
+   ========================================================= */
+
+form {
+
+    margin-top:
+        25px;
+}
+
+
+.download-button {
+
+    width:
+        100%;
+
+    min-height:
+        54px;
+
+    padding:
+        14px 22px;
+
+    border:
+        1px solid rgba(65, 220, 150, 0.40);
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(25, 150, 95, 0.20);
+
+    color:
+        #8fffc6;
+
+    font-size:
+        15px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0 8px 25px rgba(0, 120, 75, 0.18);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.download-button:hover {
+
+    background:
+        rgba(35, 180, 110, 0.32);
+
+    border-color:
+        rgba(100, 240, 175, 0.65);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 150, 90, 0.28);
+}
+
+
+.download-button:active {
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   SCAN ANOTHER BUTTON
+   ========================================================= */
+
+.back-button {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    margin:
+        12px auto 0;
+
+    padding:
+        14px 22px;
+
+    text-align:
+        center;
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(25, 150, 95, 0.12);
+
+    border:
+        1px solid rgba(65, 220, 150, 0.30);
+
+    color:
+        #8fffc6;
+
+    text-decoration:
+        none;
+
+    font-size:
+        15px;
+
+    font-weight:
+        700;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
 
 .back-button:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
+
+    background:
+        rgba(35, 180, 110, 0.25);
+
+    border-color:
+        rgba(100, 240, 175, 0.60);
+
+    transform:
+        translateY(-2px);
 }
 
 
-/* =====================================================
-   RESPONSIVE DESIGN
-===================================================== */
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+
+    text-align:
+        center;
+
+    padding:
+        20px;
+
+    color:
+        #719187;
+
+    font-size:
+        13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    body {
+
+        padding:
+            30px 15px;
+    }
+
+
+    .header h1 {
+
+        font-size:
+            34px;
+    }
+
+
+    .scanner-card {
+
+        padding:
+            22px;
+    }
+
+
+    .features {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .input-group {
+
+        flex-direction:
+            column;
+    }
+
+
+    .scan-button {
+
+        width:
+            100%;
+    }
+}
+
 
 @media (max-width: 700px) {
 
-    .input-group {
-        flex-direction: column;
-    }
-
-    .features {
-        grid-template-columns: 1fr;
-    }
-
-    .header h1 {
-        font-size: 28px;
-    }
-
     .result-card {
-        margin: 20px;
-        padding: 25px;
+
+        width:
+            92%;
+
+        padding:
+            22px;
     }
+
+
+    .result-card h2 {
+
+        font-size:
+            1.6rem;
+    }
+
 
     .risk-score strong {
-        font-size: 42px;
+
+        font-size:
+            3rem;
     }
 
-    .risk-meter-marker {
-        width: 20px;
-        height: 20px;
+
+    .ai-confidence {
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            6px;
     }
 
-    .risk-scale {
-        font-size: 12px;
+
+    .download-button,
+    .back-button {
+
+        min-height:
+            50px;
+
+        font-size:
+            14px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .tabs {
+
+        flex-direction:
+            column;
+    }
+
+
+    .header h1 {
+
+        font-size:
+            30px;
+    }
+
+
+    .section-title {
+
+        font-size:
+            23px;
     }
 }
