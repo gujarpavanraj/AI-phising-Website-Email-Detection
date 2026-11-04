@@ -331,7 +331,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 720px;
+            min-width: 940px;
         }
 
         th {
@@ -357,6 +357,42 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        .action-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            min-width: 190px;
+        }
+
+        .action-btn {
+            display: inline-block;
+            padding: 7px 10px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: .2s;
+        }
+
+        .view-btn {
+            color: #8decc8;
+            background: rgba(0,220,145,.12);
+            border: 1px solid rgba(0,255,170,.35);
+        }
+
+        .pdf-btn {
+            color: #a9dfff;
+            background: rgba(40,145,220,.13);
+            border: 1px solid rgba(90,190,255,.35);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.15);
         }
 
         .risk-badge {
@@ -572,19 +608,19 @@
                         <div class="legend-item">
                             <span class="dot dot-low"></span>
                             Low risk
-                            <strong>{{ ns.low }}</strong>
+                            <strong>{{ ns.low }} ({{ '%.1f'|format((ns.low / ns.total * 100) if ns.total else 0) }}%)</strong>
                         </div>
 
                         <div class="legend-item">
                             <span class="dot dot-medium"></span>
                             Medium risk
-                            <strong>{{ ns.medium }}</strong>
+                            <strong>{{ ns.medium }} ({{ '%.1f'|format((ns.medium / ns.total * 100) if ns.total else 0) }}%)</strong>
                         </div>
 
                         <div class="legend-item">
                             <span class="dot dot-high"></span>
                             High risk
-                            <strong>{{ ns.high }}</strong>
+                            <strong>{{ ns.high }} ({{ '%.1f'|format((ns.high / ns.total * 100) if ns.total else 0) }}%)</strong>
                         </div>
                     </div>
 
@@ -608,7 +644,7 @@
                     <div>
                         <div class="bar-label">
                             <span>🌐 Website scans</span>
-                            <strong>{{ ns.websites }}</strong>
+                            <strong>{{ ns.websites }} ({{ '%.1f'|format((ns.websites / ns.total * 100) if ns.total else 0) }}%)</strong>
                         </div>
 
                         <div class="bar-track">
@@ -622,7 +658,7 @@
                     <div>
                         <div class="bar-label">
                             <span>📧 Email scans</span>
-                            <strong>{{ ns.emails }}</strong>
+                            <strong>{{ ns.emails }} ({{ '%.1f'|format((ns.emails / ns.total * 100) if ns.total else 0) }}%)</strong>
                         </div>
 
                         <div class="bar-track">
@@ -698,6 +734,7 @@
                             <th>Risk Score</th>
                             <th>Risk Level</th>
                             <th>Date</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
 
@@ -741,6 +778,19 @@
                             </td>
 
                             <td>{{ scan['created_at'] }}</td>
+
+                            <td>
+                                <div class="action-links">
+                                    <a class="action-btn view-btn"
+                                       href="{{ url_for('scan_details', scan_id=scan['id']) }}">
+                                        View Details
+                                    </a>
+                                    <a class="action-btn pdf-btn"
+                                       href="{{ url_for('download_scan_report', scan_id=scan['id']) }}">
+                                        Download PDF
+                                    </a>
+                                </div>
+                            </td>
 
                         </tr>
 

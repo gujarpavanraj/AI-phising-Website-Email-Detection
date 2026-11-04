@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Details | PhishGuard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", Arial, sans-serif; }
+        body {
+            min-height: 100vh;
+            color: #fff;
+            background:
+                linear-gradient(rgba(0,15,11,.22), rgba(0,15,11,.42)),
+                url("{{ url_for('static', filename='images/cyber-bg.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .navbar {
+            min-height: 75px; padding: 14px 5%; display: flex;
+            justify-content: space-between; align-items: center; gap: 20px;
+            background: rgba(0,20,14,.9); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0,255,170,.25);
+        }
+        .brand { font-size: 24px; font-weight: 800; }
+        .brand span { color: #20efa8; }
+        .nav-links { display: flex; align-items: center; gap: 18px; }
+        .nav-links a { color: #d4eee2; text-decoration: none; font-size: 14px; font-weight: 600; }
+        .nav-links a:hover { color: #20efa8; }
+        .container { width: 92%; max-width: 1050px; margin: 38px auto; }
+        .glass {
+            background: rgba(0,28,20,.9); backdrop-filter: blur(14px);
+            border: 1px solid rgba(0,255,170,.22); border-radius: 17px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.35);
+        }
+        .heading { margin-bottom: 22px; }
+        .heading h1 { font-size: 30px; margin-bottom: 8px; }
+        .heading h1 span { color: #29efa9; }
+        .heading p { color: #c6e5d7; font-size: 14px; line-height: 1.6; }
+        .details-card { padding: 26px; }
+        .topline {
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 15px; flex-wrap: wrap; margin-bottom: 24px;
+        }
+        .scan-id { color: #a9cbbb; font-size: 13px; }
+        .risk {
+            display: inline-block; padding: 7px 13px; border-radius: 20px;
+            font-size: 12px; font-weight: 800; text-transform: uppercase;
+        }
+        .risk-high { color: #ff9da3; background: rgba(255,65,80,.16); border: 1px solid rgba(255,90,100,.4); }
+        .risk-medium { color: #ffdc91; background: rgba(255,190,50,.15); border: 1px solid rgba(255,190,50,.35); }
+        .risk-low { color: #76f5be; background: rgba(0,220,145,.14); border: 1px solid rgba(0,255,170,.3); }
+        .risk-unknown { color: #d6e2dc; background: rgba(180,190,185,.12); border: 1px solid rgba(180,190,185,.25); }
+        .grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px; margin-bottom: 20px;
+        }
+        .field {
+            padding: 17px; border-radius: 11px;
+            background: rgba(255,255,255,.045);
+            border: 1px solid rgba(0,255,170,.13); min-width: 0;
+        }
+        .field-label {
+            color: #9fcbb7; font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: .7px; margin-bottom: 9px;
+        }
+        .field-value { color: #f0fff7; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
+        .score { font-size: 25px; font-weight: 800; color: #35edaa; }
+        .wide { grid-column: 1 / -1; }
+        .input-value, .explanation {
+            white-space: pre-wrap; overflow-wrap: anywhere;
+            max-height: 300px; overflow-y: auto;
+        }
+        .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+        .btn {
+            display: inline-block; padding: 11px 17px; border-radius: 8px;
+            text-decoration: none; font-size: 13px; font-weight: 750;
+            transition: .2s;
+        }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.12); }
+        .primary { color: white; background: linear-gradient(90deg,#079b70,#08d69a); }
+        .secondary { color: #a9dfff; background: rgba(40,145,220,.13); border: 1px solid rgba(90,190,255,.35); }
+        .note { color: #a9cbbb; font-size: 12px; line-height: 1.6; margin-top: 20px; }
+        .footer { padding: 28px 10px; text-align: center; color: #c1e3d2; font-size: 12px; }
+        @media (max-width: 650px) {
+            .navbar { flex-direction: column; padding: 18px; }
+            .grid { grid-template-columns: 1fr; }
+            .wide { grid-column: auto; }
+            .heading h1 { font-size: 25px; }
+            .details-card { padding: 17px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">🛡️ Phish<span>Guard</span></div>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Scanner</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="heading">
+            <h1>Individual <span>Scan Details</span></h1>
+            <p>Review the saved analysis and download its historical report.</p>
+        </section>
+
+        <section class="details-card glass">
+            {% set risk = scan['risk_level']|default('')|lower|trim|replace(' risk', '') %}
+            <div class="topline">
+                <div class="scan-id">Scan ID: #{{ scan['id'] }}</div>
+                {% if risk == 'high' %}
+                    <span class="risk risk-high">High Risk</span>
+                {% elif risk == 'medium' %}
+                    <span class="risk risk-medium">Medium Risk</span>
+                {% elif risk == 'low' %}
+                    <span class="risk risk-low">Low Risk</span>
+                {% else %}
+                    <span class="risk risk-unknown">Unknown Risk</span>
+                {% endif %}
+            </div>
+
+            <div class="grid">
+                <div class="field">
+                    <div class="field-label">Scan Type</div>
+                    <div class="field-value">{{ scan['input_type'] }}</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Scan Date &amp; Time</div>
+                    <div class="field-value">{{ scan['created_at'] }}</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Risk Score</div>
+                    <div class="field-value score">{{ scan['risk_score'] }}/100</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">AI Classification</div>
+                    <div class="field-value">{{ scan['ai_status']|default('Not available', true) }}</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">AI Confidence / Phishing Probability</div>
+                    <div class="field-value">
+                        {% if scan['ai_confidence'] is not none %}
+                            {{ scan['ai_confidence'] }}%
+                        {% else %}
+                            Not available
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Final Risk Level</div>
+                    <div class="field-value">{{ scan['risk_level'] }}</div>
+                </div>
+                <div class="field wide">
+                    <div class="field-label">Analyzed Input</div>
+                    <div class="field-value input-value">{{ scan['analyzed_input'] }}</div>
+                </div>
+                <div class="field wide">
+                    <div class="field-label">Analysis Explanation</div>
+                    <div class="field-value explanation">{{ scan['explanation']|default('No explanation was saved for this scan.', true) }}</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a class="btn primary" href="{{ url_for('download_scan_report', scan_id=scan['id']) }}">⬇ Download PDF Report</a>
+                <a class="btn secondary" href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+            </div>
+
+            <p class="note">
+                This page displays information saved when the scan was performed.
+                Values that were not stored in scan history are not reconstructed here.
+            </p>
+        </section>
+
+        <footer class="footer">PhishGuard • AI-Based Phishing Website &amp; Email Detection</footer>
+    </main>
+</body>
+</html>
