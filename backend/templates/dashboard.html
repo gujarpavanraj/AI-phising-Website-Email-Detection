@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Dashboard | PhishGuard</title>
 
     <style>
@@ -18,15 +17,10 @@
 
         body {
             min-height: 100vh;
-            color: #ffffff;
-
+            color: #fff;
             background:
-                linear-gradient(
-                    rgba(0, 15, 11, 0.18),
-                    rgba(0, 15, 11, 0.35)
-                ),
+                linear-gradient(rgba(0,15,11,.18), rgba(0,15,11,.35)),
                 url("{{ url_for('static', filename='images/cyber-bg.png') }}");
-
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -35,16 +29,13 @@
         .navbar {
             min-height: 75px;
             padding: 14px 5%;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
-
-            background: rgba(0, 20, 14, 0.88);
+            background: rgba(0,20,14,.88);
             backdrop-filter: blur(15px);
-
-            border-bottom: 1px solid rgba(0, 255, 170, 0.25);
+            border-bottom: 1px solid rgba(0,255,170,.25);
         }
 
         .brand {
@@ -52,9 +43,7 @@
             font-weight: 800;
         }
 
-        .brand span {
-            color: #20efa8;
-        }
+        .brand span { color: #20efa8; }
 
         .nav-links {
             display: flex;
@@ -69,40 +58,34 @@
             font-weight: 600;
         }
 
-        .nav-links a:hover {
-            color: #20efa8;
-        }
+        .nav-links a:hover { color: #20efa8; }
 
-        .logout-btn {
+        .logout-btn, .scan-btn {
             padding: 10px 17px;
             border: none;
             border-radius: 8px;
-
-            background: linear-gradient(90deg, #079b70, #08d69a);
+            background: linear-gradient(90deg,#079b70,#08d69a);
             color: white;
-
             font-weight: 700;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .container {
             width: 92%;
             max-width: 1250px;
-            margin: 40px auto;
+            margin: 38px auto;
         }
 
-        .welcome {
-            margin-bottom: 30px;
-        }
+        .welcome { margin-bottom: 28px; }
 
         .welcome h1 {
             font-size: 32px;
             margin-bottom: 9px;
         }
 
-        .welcome h1 span {
-            color: #29efa9;
-        }
+        .welcome h1 span { color: #29efa9; }
 
         .welcome p {
             color: #c6e5d7;
@@ -111,36 +94,33 @@
         }
 
         .user-email {
-            color: #53edb5;
+            color: #53edb5 !important;
             font-weight: 600;
         }
 
         .glass {
-            background: rgba(0, 28, 20, 0.84);
+            background: rgba(0,28,20,.86);
             backdrop-filter: blur(14px);
-
-            border: 1px solid rgba(0, 255, 170, 0.22);
+            border: 1px solid rgba(0,255,170,.22);
             border-radius: 17px;
-
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 15px 40px rgba(0,0,0,.35);
         }
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4,1fr);
             gap: 18px;
-
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .stat-card {
             padding: 23px;
-            transition: 0.2s;
+            transition: .2s;
         }
 
         .stat-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(0, 255, 170, 0.55);
+            border-color: rgba(0,255,170,.55);
         }
 
         .stat-label {
@@ -154,20 +134,160 @@
             font-weight: 800;
         }
 
-        .green {
-            color: #35edaa;
+        .green { color: #35edaa; }
+        .yellow { color: #ffd166; }
+        .red { color: #ff777e; }
+        .blue { color: #65caff; }
+
+        .section-title {
+            font-size: 21px;
+            margin-bottom: 18px;
         }
 
-        .yellow {
-            color: #ffd166;
+        /* ANALYTICS */
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
         }
 
-        .red {
-            color: #ff777e;
+        .chart-card { padding: 24px; }
+
+        .chart-card h3 {
+            font-size: 17px;
+            margin-bottom: 7px;
         }
 
-        .blue {
-            color: #65caff;
+        .chart-subtitle {
+            color: #a9cbbb;
+            font-size: 12px;
+            margin-bottom: 22px;
+        }
+
+        .risk-chart-area {
+            min-height: 210px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 35px;
+            flex-wrap: wrap;
+        }
+
+        .donut {
+            width: 165px;
+            height: 165px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            position: relative;
+            background: conic-gradient(
+                #35edaa 0% 100%
+            );
+        }
+
+        .donut::before {
+            content: "";
+            position: absolute;
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            background: #06251b;
+        }
+
+        .donut-center {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .donut-center strong {
+            display: block;
+            font-size: 27px;
+        }
+
+        .donut-center span {
+            color: #a9cbbb;
+            font-size: 11px;
+        }
+
+        .legend {
+            display: grid;
+            gap: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #d9eee4;
+            font-size: 13px;
+        }
+
+        .legend-item strong {
+            margin-left: auto;
+            padding-left: 14px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot-low { background: #35edaa; }
+        .dot-medium { background: #ffd166; }
+        .dot-high { background: #ff777e; }
+
+        .bar-chart {
+            display: grid;
+            gap: 22px;
+            padding-top: 12px;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 9px;
+            color: #d9eee4;
+            font-size: 13px;
+        }
+
+        .bar-track {
+            width: 100%;
+            height: 13px;
+            background: rgba(255,255,255,.09);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 20px;
+            transition: width .5s ease;
+        }
+
+        .website-fill {
+            background: linear-gradient(90deg,#087fe0,#35c5ff);
+        }
+
+        .email-fill {
+            background: linear-gradient(90deg,#079b70,#35edaa);
+        }
+
+        .chart-empty {
+            color: #a9cbbb;
+            font-size: 13px;
+            text-align: center;
+            padding: 45px 10px;
+        }
+
+        /* HISTORY */
+
+        .history-card {
+            padding: 25px;
         }
 
         .section-header {
@@ -175,64 +295,62 @@
             align-items: center;
             justify-content: space-between;
             gap: 15px;
-
             margin-bottom: 20px;
         }
 
-        .section-header h2 {
-            font-size: 22px;
+        .section-header h2 { font-size: 22px; }
+
+        .filters {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
-        .scan-btn {
-            display: inline-block;
-            padding: 11px 17px;
-
+        .filters input, .filters select {
+            width: 100%;
+            padding: 12px 14px;
+            color: #fff;
+            background: rgba(0,15,11,.8);
+            border: 1px solid rgba(0,255,170,.25);
             border-radius: 9px;
-            background: linear-gradient(90deg, #079b70, #08d69a);
-
-            color: #ffffff;
-            font-size: 13px;
-            font-weight: 700;
-            text-decoration: none;
+            outline: none;
         }
 
-        .history-card {
-            padding: 25px;
+        .filters select option {
+            background: #06251b;
+            color: white;
         }
 
-        .table-wrapper {
-            overflow-x: auto;
+        .filters input:focus, .filters select:focus {
+            border-color: #20efa8;
         }
+
+        .table-wrapper { overflow-x: auto; }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 650px;
+            min-width: 720px;
         }
 
         th {
             padding: 15px 12px;
             text-align: left;
-
             color: #69eeb9;
             font-size: 12px;
             text-transform: uppercase;
-
-            border-bottom: 1px solid rgba(0, 255, 170, 0.2);
+            border-bottom: 1px solid rgba(0,255,170,.2);
         }
 
         td {
             padding: 16px 12px;
-
             color: #e0f4e9;
             font-size: 13px;
-
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255,255,255,.07);
         }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+        tr:last-child td { border-bottom: none; }
 
         .scan-input {
             max-width: 260px;
@@ -245,62 +363,67 @@
             display: inline-block;
             padding: 6px 11px;
             border-radius: 20px;
-
             font-size: 11px;
             font-weight: 750;
         }
 
         .risk-high {
             color: #ff9da3;
-            background: rgba(255, 65, 80, 0.16);
-            border: 1px solid rgba(255, 90, 100, 0.4);
+            background: rgba(255,65,80,.16);
+            border: 1px solid rgba(255,90,100,.4);
         }
 
         .risk-medium {
             color: #ffdc91;
-            background: rgba(255, 190, 50, 0.15);
-            border: 1px solid rgba(255, 190, 50, 0.35);
+            background: rgba(255,190,50,.15);
+            border: 1px solid rgba(255,190,50,.35);
         }
 
         .risk-low {
             color: #76f5be;
-            background: rgba(0, 220, 145, 0.14);
-            border: 1px solid rgba(0, 255, 170, 0.3);
+            background: rgba(0,220,145,.14);
+            border: 1px solid rgba(0,255,170,.3);
+        }
+
+        .risk-unknown {
+            color: #d6e2dc;
+            background: rgba(180,190,185,.12);
+            border: 1px solid rgba(180,190,185,.25);
         }
 
         .empty-state {
-            padding: 55px 20px;
+            padding: 45px 20px;
             text-align: center;
-        }
-
-        .empty-icon {
-            font-size: 43px;
-            margin-bottom: 15px;
+            color: #b6d9c8;
         }
 
         .empty-state h3 {
-            font-size: 20px;
+            color: white;
             margin-bottom: 10px;
         }
 
-        .empty-state p {
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .no-results {
+            display: none;
+            padding: 30px;
             color: #b6d9c8;
-            font-size: 14px;
-            margin-bottom: 22px;
+            text-align: center;
         }
 
         .footer {
             padding: 30px 10px;
             text-align: center;
-
             color: #c1e3d2;
             font-size: 12px;
         }
 
         @media (max-width: 850px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .stats { grid-template-columns: repeat(2,1fr); }
+            .analytics-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 600px) {
@@ -315,97 +438,52 @@
                 gap: 15px;
             }
 
-            .container {
-                margin-top: 25px;
-            }
-
-            .welcome h1 {
-                font-size: 26px;
-            }
+            .welcome h1 { font-size: 26px; }
 
             .stats {
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
             }
 
-            .stat-card {
-                padding: 17px;
-            }
+            .stat-card { padding: 17px; }
+            .stat-value { font-size: 27px; }
 
-            .stat-value {
-                font-size: 27px;
-            }
-
-            .history-card {
-                padding: 15px;
-            }
+            .history-card, .chart-card { padding: 16px; }
 
             .section-header {
                 align-items: flex-start;
                 flex-direction: column;
             }
+
+            .filters { grid-template-columns: 1fr; }
         }
     </style>
-
 </head>
 
 <body>
 
-    <!-- NAVIGATION -->
-
     <nav class="navbar">
-
-        <div class="brand">
-            🛡️ Phish<span>Guard</span>
-        </div>
+        <div class="brand">🛡️ Phish<span>Guard</span></div>
 
         <div class="nav-links">
-
-            <a href="{{ url_for('home') }}">
-                Scanner
-            </a>
-
-            <a href="{{ url_for('dashboard') }}">
-                Dashboard
-            </a>
+            <a href="{{ url_for('home') }}">Scanner</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
 
             <form method="POST"
                   action="{{ url_for('logout') }}"
-                  style="margin: 0;">
-
-                <button type="submit" class="logout-btn">
-                    Logout
-                </button>
-
+                  style="margin:0;">
+                <button type="submit" class="logout-btn">Logout</button>
             </form>
-
         </div>
-
     </nav>
-
-
-    <!-- DASHBOARD -->
 
     <main class="container">
 
         <section class="welcome">
-
-            <h1>
-                Welcome back, <span>PhishGuard User!</span>
-            </h1>
-
-            <p>
-                Your personal security overview and scan history.
-            </p>
-
-            <p class="user-email">
-                {{ user_email }}
-            </p>
-
+            <h1>Welcome back, <span>PhishGuard User!</span></h1>
+            <p>Your personal security overview and scan history.</p>
+            <p class="user-email">{{ user_email }}</p>
         </section>
-
-
-        <!-- CALCULATE STATISTICS -->
 
         {% set ns = namespace(
             total=0,
@@ -417,7 +495,6 @@
         ) %}
 
         {% for scan in scans %}
-
             {% set ns.total = ns.total + 1 %}
 
             {% if scan['input_type'] == 'Website URL' %}
@@ -426,209 +503,354 @@
                 {% set ns.emails = ns.emails + 1 %}
             {% endif %}
 
-            {% if scan['risk_level']|lower == 'high' %}
+            {% set risk = scan['risk_level']|default('')|lower|trim|replace(' risk', '') %}
+            {% if risk == 'high' %}
                 {% set ns.high = ns.high + 1 %}
-            {% elif scan['risk_level']|lower == 'medium' %}
+            {% elif risk == 'medium' %}
                 {% set ns.medium = ns.medium + 1 %}
-            {% elif scan['risk_level']|lower == 'low' %}
+            {% elif risk == 'low' %}
                 {% set ns.low = ns.low + 1 %}
             {% endif %}
-
         {% endfor %}
 
-
-        <!-- STATISTICS -->
+        <!-- SUMMARY CARDS -->
 
         <section class="stats">
 
             <div class="stat-card glass">
-
-                <div class="stat-label">
-                    Total Scans
-                </div>
-
-                <div class="stat-value blue">
-                    {{ ns.total }}
-                </div>
-
+                <div class="stat-label">Total Scans</div>
+                <div class="stat-value blue">{{ ns.total }}</div>
             </div>
 
-
             <div class="stat-card glass">
-
-                <div class="stat-label">
-                    Website Scans
-                </div>
-
-                <div class="stat-value green">
-                    {{ ns.websites }}
-                </div>
-
+                <div class="stat-label">Website Scans</div>
+                <div class="stat-value green">{{ ns.websites }}</div>
             </div>
 
-
             <div class="stat-card glass">
-
-                <div class="stat-label">
-                    Email Scans
-                </div>
-
-                <div class="stat-value blue">
-                    {{ ns.emails }}
-                </div>
-
+                <div class="stat-label">Email Scans</div>
+                <div class="stat-value blue">{{ ns.emails }}</div>
             </div>
 
-
             <div class="stat-card glass">
-
-                <div class="stat-label">
-                    High-Risk Scans
-                </div>
-
-                <div class="stat-value red">
-                    {{ ns.high }}
-                </div>
-
+                <div class="stat-label">High-Risk Scans</div>
+                <div class="stat-value red">{{ ns.high }}</div>
             </div>
 
         </section>
 
+        <!-- ANALYTICS -->
+
+        <h2 class="section-title">📈 Security Analytics</h2>
+
+        <section class="analytics-grid">
+
+            <div class="chart-card glass">
+                <h3>Risk Distribution</h3>
+                <p class="chart-subtitle">
+                    Breakdown by detected risk level
+                </p>
+
+                {% if ns.total > 0 %}
+                <div class="risk-chart-area">
+
+                    <div class="donut"
+                         id="riskDonut"
+                         data-low="{{ ns.low }}"
+                         data-medium="{{ ns.medium }}"
+                         data-high="{{ ns.high }}"
+                         data-total="{{ ns.total }}">
+
+                        <div class="donut-center">
+                            <strong>{{ ns.total }}</strong>
+                            <span>Recent scans</span>
+                        </div>
+
+                    </div>
+
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="dot dot-low"></span>
+                            Low risk
+                            <strong>{{ ns.low }}</strong>
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="dot dot-medium"></span>
+                            Medium risk
+                            <strong>{{ ns.medium }}</strong>
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="dot dot-high"></span>
+                            High risk
+                            <strong>{{ ns.high }}</strong>
+                        </div>
+                    </div>
+
+                </div>
+                {% else %}
+                    <div class="chart-empty">
+                        No scan data available yet.
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="chart-card glass">
+                <h3>Scan Type Comparison</h3>
+                <p class="chart-subtitle">
+                    Website scans compared with email scans
+                </p>
+
+                {% if ns.total > 0 %}
+                <div class="bar-chart">
+
+                    <div>
+                        <div class="bar-label">
+                            <span>🌐 Website scans</span>
+                            <strong>{{ ns.websites }}</strong>
+                        </div>
+
+                        <div class="bar-track">
+                            <div class="bar-fill website-fill"
+                                 data-count="{{ ns.websites }}"
+                                 data-total="{{ ns.total }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="bar-label">
+                            <span>📧 Email scans</span>
+                            <strong>{{ ns.emails }}</strong>
+                        </div>
+
+                        <div class="bar-track">
+                            <div class="bar-fill email-fill"
+                                 data-count="{{ ns.emails }}"
+                                 data-total="{{ ns.total }}">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                {% else %}
+                    <div class="chart-empty">
+                        Complete your first scan to see analytics.
+                    </div>
+                {% endif %}
+            </div>
+
+        </section>
 
         <!-- SCAN HISTORY -->
 
         <section class="history-card glass">
 
             <div class="section-header">
-
-                <h2>📊 Recent Scan History</h2>
+                <div>
+                    <h2>📊 Recent Scan History</h2>
+                    <p class="chart-subtitle" style="margin:7px 0 0;">
+                        Showing up to the latest 100 scans
+                    </p>
+                </div>
 
                 <a href="{{ url_for('home') }}" class="scan-btn">
                     + New Scan
                 </a>
-
             </div>
-
 
             {% if scans %}
 
-                <div class="table-wrapper">
+            <!-- FILTERS -->
 
-                    <table>
+            <div class="filters">
 
-                        <thead>
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="🔍 Search scanned URL or email..."
+                    aria-label="Search scan history"
+                >
 
-                            <tr>
-                                <th>Scan Type</th>
-                                <th>Analyzed Input</th>
-                                <th>Risk Score</th>
-                                <th>Risk Level</th>
-                                <th>Date</th>
-                            </tr>
+                <select id="typeFilter" aria-label="Filter by scan type">
+                    <option value="all">All scan types</option>
+                    <option value="website">Website scans</option>
+                    <option value="email">Email scans</option>
+                </select>
 
-                        </thead>
+                <select id="riskFilter" aria-label="Filter by risk level">
+                    <option value="all">All risk levels</option>
+                    <option value="high">High risk</option>
+                    <option value="medium">Medium risk</option>
+                    <option value="low">Low risk</option>
+                </select>
 
+            </div>
 
-                        <tbody>
+            <div class="table-wrapper">
+                <table id="scanTable">
 
-                            {% for scan in scans %}
+                    <thead>
+                        <tr>
+                            <th>Scan Type</th>
+                            <th>Analyzed Input</th>
+                            <th>Risk Score</th>
+                            <th>Risk Level</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
 
-                                <tr>
+                    <tbody>
 
-                                    <td>
-                                        {% if scan['input_type'] == 'Email' %}
-                                            📧 Email
-                                        {% else %}
-                                            🌐 Website
-                                        {% endif %}
-                                    </td>
+                        {% for scan in scans %}
 
-                                    <td class="scan-input"
-                                        title="{{ scan['analyzed_input'] }}">
+                        {% set row_risk = scan['risk_level']|default('')|lower|trim|replace(' risk', '') %}
+                        <tr class="scan-row"
+                            data-type="{{ 'website' if scan['input_type'] == 'Website URL' else 'email' }}"
+                            data-risk="{{ row_risk }}">
 
-                                        {{ scan['analyzed_input'] }}
+                            <td>
+                                {% if scan['input_type'] == 'Email' %}
+                                    📧 Email
+                                {% else %}
+                                    🌐 Website
+                                {% endif %}
+                            </td>
 
-                                    </td>
+                            <td class="scan-input"
+                                title="{{ scan['analyzed_input'] }}">
+                                {{ scan['analyzed_input'] }}
+                            </td>
 
-                                    <td>
-                                        <strong>
-                                            {{ scan['risk_score'] }}/100
-                                        </strong>
-                                    </td>
+                            <td>
+                                <strong>{{ scan['risk_score'] }}/100</strong>
+                            </td>
 
-                                    <td>
+                            <td>
+                                {% set risk = scan['risk_level']|default('')|lower|trim|replace(' risk', '') %}
+                                {% if risk == 'high' %}
+                                    <span class="risk-badge risk-high">HIGH</span>
+                                {% elif risk == 'medium' %}
+                                    <span class="risk-badge risk-medium">MEDIUM</span>
+                                {% elif risk == 'low' %}
+                                    <span class="risk-badge risk-low">LOW</span>
+                                {% else %}
+                                    <span class="risk-badge risk-unknown">UNKNOWN</span>
+                                {% endif %}
+                            </td>
 
-                                        {% set risk = scan['risk_level']|lower %}
+                            <td>{{ scan['created_at'] }}</td>
 
-                                        {% if risk == 'high' %}
+                        </tr>
 
-                                            <span class="risk-badge risk-high">
-                                                HIGH
-                                            </span>
+                        {% endfor %}
 
-                                        {% elif risk == 'medium' %}
+                    </tbody>
 
-                                            <span class="risk-badge risk-medium">
-                                                MEDIUM
-                                            </span>
+                </table>
+            </div>
 
-                                        {% else %}
-
-                                            <span class="risk-badge risk-low">
-                                                LOW
-                                            </span>
-
-                                        {% endif %}
-
-                                    </td>
-
-                                    <td>
-                                        {{ scan['created_at'] }}
-                                    </td>
-
-                                </tr>
-
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
+            <div class="no-results" id="noResults">
+                No scans match your search or selected filters.
+            </div>
 
             {% else %}
 
-                <div class="empty-state">
-
-                    <div class="empty-icon">
-                        🔍
-                    </div>
-
-                    <h3>No Scans Yet</h3>
-
-                    <p>
-                        Your scan history will appear here after
-                        your first website or email analysis.
-                    </p>
-
-                    <a href="{{ url_for('home') }}" class="scan-btn">
-                        Start Your First Scan
-                    </a>
-
-                </div>
+            <div class="empty-state">
+                <div class="empty-icon">🔍</div>
+                <h3>No Scans Yet</h3>
+                <p>
+                    Your scan history will appear here after
+                    your first website or email analysis.
+                </p>
+                <a href="{{ url_for('home') }}" class="scan-btn">
+                    Start Your First Scan
+                </a>
+            </div>
 
             {% endif %}
 
         </section>
 
-
         <footer class="footer">
-
             PhishGuard • AI-Based Phishing Website & Email Detection
-
         </footer>
 
     </main>
+
+    <!-- CLIENT-SIDE HISTORY FILTERING -->
+
+    <script>
+        // Build the risk distribution donut using the actual server-side counts.
+        const riskDonut = document.getElementById("riskDonut");
+
+        if (riskDonut) {
+            const low = Number(riskDonut.dataset.low) || 0;
+            const medium = Number(riskDonut.dataset.medium) || 0;
+            const high = Number(riskDonut.dataset.high) || 0;
+            const total = Number(riskDonut.dataset.total) || 0;
+
+            if (total > 0) {
+                const lowEnd = (low / total) * 100;
+                const mediumEnd = ((low + medium) / total) * 100;
+
+                riskDonut.style.background = `conic-gradient(
+                    #35edaa 0% ${lowEnd}%,
+                    #ffd166 ${lowEnd}% ${mediumEnd}%,
+                    #ff777e ${mediumEnd}% 100%
+                )`;
+            } else {
+                riskDonut.style.background = "#244238";
+            }
+        }
+
+        // Draw website/email comparison bars.
+        document.querySelectorAll(".bar-fill[data-count]").forEach(bar => {
+            const count = Number(bar.dataset.count) || 0;
+            const total = Number(bar.dataset.total) || 0;
+            const percentage = total > 0 ? (count / total) * 100 : 0;
+            bar.style.width = `${percentage}%`;
+        });
+
+        // Search and filter scan history.
+        const searchInput = document.getElementById("searchInput");
+        const typeFilter = document.getElementById("typeFilter");
+        const riskFilter = document.getElementById("riskFilter");
+        const noResults = document.getElementById("noResults");
+
+        function filterScans() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const selectedType = typeFilter.value;
+            const selectedRisk = riskFilter.value;
+            const rows = document.querySelectorAll(".scan-row");
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const matchesSearch =
+                    row.innerText.toLowerCase().includes(searchTerm);
+                const matchesType =
+                    selectedType === "all" || row.dataset.type === selectedType;
+                const matchesRisk =
+                    selectedRisk === "all" || row.dataset.risk === selectedRisk;
+                const visible = matchesSearch && matchesType && matchesRisk;
+
+                row.style.display = visible ? "" : "none";
+                if (visible) visibleCount++;
+            });
+
+            if (noResults) {
+                noResults.style.display =
+                    visibleCount === 0 ? "block" : "none";
+            }
+        }
+
+        if (searchInput && typeFilter && riskFilter) {
+            searchInput.addEventListener("input", filterScans);
+            typeFilter.addEventListener("change", filterScans);
+            riskFilter.addEventListener("change", filterScans);
+        }
+    </script>
 
 </body>
 </html>
