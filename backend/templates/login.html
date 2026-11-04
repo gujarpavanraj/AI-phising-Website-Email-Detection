@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | PhishGuard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+
+            background:
+                linear-gradient(
+                    rgba(0, 18, 12, 0.15),
+                    rgba(0, 18, 12, 0.30)
+                ),
+                url("{{ url_for('static', filename='images/cyber-bg.png') }}");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            color: #ffffff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            min-height: 590px;
+
+            display: grid;
+            grid-template-columns: 1fr 0.9fr;
+
+            background: rgba(0, 25, 18, 0.78);
+            backdrop-filter: blur(16px);
+
+            border: 1px solid rgba(0, 255, 170, 0.35);
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.55);
+        }
+
+        /* BRAND PANEL */
+
+        .brand-panel {
+            padding: 48px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            background: rgba(0, 50, 34, 0.38);
+
+            border-right: 1px solid rgba(0, 255, 170, 0.15);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+
+            display: grid;
+            place-items: center;
+
+            background: rgba(0, 230, 150, 0.18);
+            border: 1px solid rgba(0, 255, 170, 0.5);
+
+            border-radius: 13px;
+            font-size: 25px;
+        }
+
+        .logo span {
+            color: #24efa9;
+        }
+
+        .brand-content h1 {
+            font-size: clamp(34px, 4vw, 45px);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .brand-content h1 span {
+            color: #22efa8;
+            text-shadow: 0 0 20px rgba(0, 255, 170, 0.25);
+        }
+
+        .brand-content p {
+            max-width: 390px;
+
+            color: #c2e9d9;
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .security-note {
+            padding-left: 15px;
+            border-left: 3px solid #20efa8;
+
+            color: #c2e9d9;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* LOGIN PANEL */
+
+        .form-panel {
+            padding: 55px 45px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-panel h2 {
+            font-size: 31px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #b6d7c8;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        /* FLASH MESSAGES */
+
+        .flash {
+            padding: 12px 14px;
+            border-radius: 9px;
+            margin-bottom: 18px;
+
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .flash.error,
+        .flash.danger {
+            background: rgba(150, 35, 48, 0.35);
+            border: 1px solid #b94a5a;
+            color: #ffc1c8;
+        }
+
+        .flash.success {
+            background: rgba(0, 130, 85, 0.3);
+            border: 1px solid #20c991;
+            color: #a5ffda;
+        }
+
+        .flash.warning {
+            background: rgba(160, 110, 0, 0.3);
+            border: 1px solid #c99b39;
+            color: #ffe1a0;
+        }
+
+        /* INPUTS */
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+
+            color: #e1fff1;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+
+            background: rgba(0, 15, 11, 0.75);
+
+            border: 1px solid rgba(0, 255, 170, 0.25);
+            border-radius: 10px;
+
+            outline: none;
+
+            color: #ffffff;
+            font-size: 14px;
+
+            transition: 0.25s;
+        }
+
+        input::placeholder {
+            color: #91b5a5;
+        }
+
+        input:focus {
+            border-color: #20efa8;
+            box-shadow: 0 0 0 3px rgba(0, 255, 170, 0.12);
+        }
+
+        /* BUTTON */
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+
+            margin-top: 8px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #079b70,
+                #08d69a
+            );
+
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 750;
+
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 25px rgba(0, 255, 170, 0.25);
+        }
+
+        /* LINKS */
+
+        .register-link {
+            margin-top: 26px;
+            text-align: center;
+
+            color: #c0ddce;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #29f0ad;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 35px;
+
+            color: #91b8a5;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 750px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 460px;
+            }
+
+            .brand-panel {
+                padding: 30px;
+                gap: 35px;
+            }
+
+            .brand-content h1 {
+                font-size: 32px;
+            }
+
+            .security-note {
+                display: none;
+            }
+
+            .form-panel {
+                padding: 35px 30px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- BRAND SECTION -->
+
+        <section class="brand-panel">
+
+            <div class="logo">
+
+                <div class="logo-icon">🛡️</div>
+
+                <div>
+                    Phish<span>Guard</span>
+                </div>
+
+            </div>
+
+
+            <div class="brand-content">
+
+                <h1>
+                    Stay Ahead of<br>
+                    <span>Cyber Threats.</span>
+                </h1>
+
+                <p>
+                    An AI-powered security platform designed
+                    to analyze suspicious websites and emails
+                    using machine learning and rule-based
+                    detection.
+                </p>
+
+            </div>
+
+
+            <div class="security-note">
+
+                Intelligent detection.<br>
+                Safer browsing. Smarter security.
+
+            </div>
+
+        </section>
+
+
+        <!-- LOGIN SECTION -->
+
+        <section class="form-panel">
+
+            <h2>Welcome Back</h2>
+
+            <p class="subtitle">
+                Sign in to access your PhishGuard account.
+            </p>
+
+
+            <!-- FLASH MESSAGES -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endwith %}
+
+
+            <!-- LOGIN FORM -->
+
+            <form method="POST" action="{{ url_for('login') }}">
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit" class="login-btn">
+                    Sign In →
+                </button>
+
+            </form>
+
+
+            <!-- REGISTER LINK -->
+
+            <div class="register-link">
+
+                Don't have an account?
+
+                <a href="{{ url_for('register') }}">
+                    Create Account
+                </a>
+
+            </div>
+
+
+            <div class="footer">
+
+                © 2026 PhishGuard. AI-Based Security Platform.
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

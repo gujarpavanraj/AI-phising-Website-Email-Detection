@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,17 +6,455 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>PhishGuard | AI Phishing Detection</title>
+
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
-    <title>PhishGuard | AI Phishing Detection</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: #ffffff;
+
+            /* Original PhishGuard background */
+            background:
+                linear-gradient(
+                    rgba(0, 15, 11, 0.12),
+                    rgba(0, 15, 11, 0.25)
+                ),
+                url("{{ url_for('static', filename='images/cyber-bg.png') }}");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* TOP NAVIGATION */
+
+        .top-nav {
+            width: 100%;
+            min-height: 76px;
+            padding: 14px 5%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            background: rgba(0, 18, 13, 0.78);
+            backdrop-filter: blur(14px);
+
+            border-bottom: 1px solid rgba(0, 255, 170, 0.22);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            color: #ffffff;
+            text-decoration: none;
+
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .nav-brand span {
+            color: #20e6a0;
+        }
+
+        .nav-logo {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+            background: rgba(0, 220, 145, 0.17);
+            border: 1px solid rgba(0, 255, 170, 0.4);
+
+            font-size: 22px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+
+        .nav-links a {
+            color: #d0e8dc;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #20efa8;
+        }
+
+        .nav-links .dashboard-link {
+            padding: 10px 17px;
+            border: 1px solid rgba(0, 255, 170, 0.4);
+            border-radius: 9px;
+            background: rgba(0, 220, 145, 0.12);
+        }
+
+        .nav-links .logout-link {
+            padding: 10px 17px;
+            border-radius: 9px;
+
+            background: linear-gradient(
+                90deg,
+                #079b70,
+                #08c78c
+            );
+
+            color: #ffffff;
+        }
+
+        /* MAIN CONTAINER */
+
+        .container {
+            width: 100%;
+            max-width: 1250px;
+            margin: auto;
+            padding: 45px 25px 35px;
+        }
+
+        /* HEADER */
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header .logo {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(0, 220, 145, 0.16);
+            border: 1px solid rgba(0, 255, 170, 0.5);
+
+            font-size: 30px;
+            box-shadow: 0 0 25px rgba(0, 255, 170, 0.2);
+        }
+
+        .header h1 {
+            margin: 0 0 10px;
+            font-size: clamp(32px, 5vw, 45px);
+            font-weight: 800;
+            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .header p {
+            margin: 0;
+            color: #d2f5e7;
+            font-size: 16px;
+            text-shadow: 0 2px 8px #00130d;
+        }
+
+        /* SCANNER CARD */
+
+        .scanner-card {
+            width: 100%;
+            max-width: 950px;
+            margin: auto;
+
+            padding: 35px;
+
+            background: rgba(0, 28, 20, 0.80);
+            backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(0, 255, 170, 0.27);
+            border-radius: 22px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.42),
+                0 0 30px rgba(0, 255, 170, 0.07);
+        }
+
+        /* SCANNER TABS */
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 32px;
+        }
+
+        .tab {
+            padding: 13px 24px;
+
+            border: 1px solid rgba(0, 255, 170, 0.35);
+            border-radius: 10px;
+
+            background: rgba(0, 255, 170, 0.07);
+
+            color: #d8fff0;
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .tab:hover,
+        .tab.active {
+            background: linear-gradient(
+                90deg,
+                #079b70,
+                #08c78c
+            );
+
+            color: #ffffff;
+            border-color: #22f0ad;
+
+            box-shadow: 0 5px 20px rgba(0, 255, 170, 0.2);
+        }
+
+        /* SECTION CONTENT */
+
+        .section-title {
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-size: 26px;
+            text-align: center;
+        }
+
+        .section-description {
+            max-width: 650px;
+            margin: 0 auto 28px;
+
+            color: #c3e4d6;
+            line-height: 1.7;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* INPUTS */
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .url-input,
+        .email-input {
+            width: 100%;
+            padding: 16px;
+
+            border: 1px solid rgba(0, 255, 170, 0.3);
+            border-radius: 10px;
+
+            background: rgba(0, 12, 9, 0.75);
+
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        .url-input::placeholder,
+        .email-input::placeholder {
+            color: #9bbbad;
+        }
+
+        .url-input:focus,
+        .email-input:focus {
+            border-color: #20efa8;
+            box-shadow: 0 0 0 3px rgba(0, 255, 170, 0.1);
+        }
+
+        .email-input {
+            display: block;
+            min-height: 190px;
+            resize: vertical;
+            margin-bottom: 17px;
+            line-height: 1.6;
+        }
+
+        /* SCAN BUTTON */
+
+        .scan-button {
+            padding: 15px 23px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #079b70,
+                #08d69a
+            );
+
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 750;
+
+            white-space: nowrap;
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .scan-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 170, 0.25);
+        }
+
+        /* FEATURES */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+
+            margin-top: 40px;
+        }
+
+        .feature {
+            padding: 22px 17px;
+
+            background: rgba(0, 65, 45, 0.43);
+            border: 1px solid rgba(0, 255, 170, 0.18);
+            border-radius: 13px;
+
+            transition: 0.25s;
+        }
+
+        .feature:hover {
+            transform: translateY(-4px);
+            background: rgba(0, 100, 67, 0.48);
+            border-color: rgba(0, 255, 170, 0.48);
+        }
+
+        .feature h3 {
+            margin: 0 0 11px;
+            font-size: 16px;
+            color: #62ffc4;
+        }
+
+        .feature p {
+            margin: 0;
+            color: #c3e4d6;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #d1eade;
+            font-size: 13px;
+            text-shadow: 0 2px 8px #00130d;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 760px) {
+
+            .top-nav {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .container {
+                padding: 30px 15px;
+            }
+
+            .scanner-card {
+                padding: 23px 17px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                width: 100%;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
 
+    <!-- TOP NAVIGATION -->
+
+    <nav class="top-nav">
+
+        <a href="{{ url_for('home') }}" class="nav-brand">
+            <div class="nav-logo">🛡️</div>
+            <div>Phish<span>Guard</span></div>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">Home</a>
+
+            <a href="#website-scanner">Website Scanner</a>
+
+            <a href="#email-scanner">Email Scanner</a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="dashboard-link">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('logout') }}"
+               class="logout-link">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+
     <div class="container">
 
         <header class="header">
+
             <div class="logo">🛡️</div>
 
             <h1>PhishGuard</h1>
@@ -23,32 +462,39 @@
             <p>
                 AI-powered phishing detection for websites and emails
             </p>
+
         </header>
 
 
         <main class="scanner-card">
 
-            <!-- Scanner Tabs -->
+            <!-- SCANNER TABS -->
+
             <div class="tabs">
 
                 <button
-                    class="tab"
+                    class="tab active"
                     type="button"
                     onclick="showWebsiteScanner()">
+
                     🌐 Website Scanner
+
                 </button>
 
                 <button
                     class="tab"
                     type="button"
                     onclick="showEmailScanner()">
+
                     📧 Email Scanner
+
                 </button>
 
             </div>
 
 
-            <!-- Website Scanner -->
+            <!-- WEBSITE SCANNER -->
+
             <section id="website-scanner">
 
                 <h2 class="section-title">
@@ -75,7 +521,9 @@
                         <button
                             class="scan-button"
                             type="submit">
+
                             🔍 Analyze URL
+
                         </button>
 
                     </div>
@@ -85,7 +533,8 @@
             </section>
 
 
-            <!-- Email Scanner -->
+            <!-- EMAIL SCANNER -->
+
             <section id="email-scanner" style="display: none;">
 
                 <h2 class="section-title">
@@ -97,49 +546,60 @@
                     analyze it for potential phishing indicators.
                 </p>
 
-               
                 <form action="/check-email" method="POST">
 
-    <textarea
-        class="email-input"
-        name="email"
-        placeholder="Paste the email content here..."
-        rows="10"
-        required></textarea>
+                    <textarea
+                        class="email-input"
+                        name="email"
+                        placeholder="Paste the email content here..."
+                        rows="10"
+                        required></textarea>
 
-    <button
-        class="scan-button"
-        type="submit">
-        🔍 Analyze Email
-    </button>
+                    <button
+                        class="scan-button"
+                        type="submit">
 
-</form>
+                        🔍 Analyze Email
+
+                    </button>
+
+                </form>
 
             </section>
 
 
-            <!-- Features -->
+            <!-- FEATURES -->
+
             <div class="features">
 
                 <div class="feature">
+
                     <h3>🔎 Smart Analysis</h3>
+
                     <p>
                         Examines URLs, text and other phishing indicators.
                     </p>
+
                 </div>
 
                 <div class="feature">
+
                     <h3>🤖 AI Detection</h3>
+
                     <p>
-                        Machine-learning models will classify potential threats.
+                        Machine-learning models classify potential threats.
                     </p>
+
                 </div>
 
                 <div class="feature">
+
                     <h3>📊 Risk Assessment</h3>
+
                     <p>
                         Provides a risk score with understandable explanations.
                     </p>
+
                 </div>
 
             </div>
@@ -148,17 +608,19 @@
 
 
         <footer class="footer">
+
             <p>
                 PhishGuard • AI-Based Phishing Website & Email Detection
             </p>
+
         </footer>
 
     </div>
 
 
-    <!-- JavaScript -->
+    <!-- JAVASCRIPT -->
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
-
 </html>

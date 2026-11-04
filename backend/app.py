@@ -1,8 +1,17 @@
 import os
 import re
 import joblib
+import secrets
+from functools import wraps
 
-from flask import Flask, request, render_template, send_file
+from flask import (
+    Flask, request, render_template, send_file,
+    session, redirect, url_for, flash
+)
+
+from auth.database import (
+    init_db, create_user, verify_user, save_scan, get_user_scans
+)
 
 from services.url_features import extract_url_features
 from services.email_features import extract_email_features
@@ -34,6 +43,103 @@ from scipy.sparse import hstack, csr_matrix
 # =========================================================
 
 app = Flask(__name__)
+
+app.config.update(
+    SECRET_KEY=os.environ.get("FLASK_SECRET_KEY") or secrets.token_hex(32),
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=False  # Set True when deployed with HTTPS.
+)
+
+# Create the SQLite tables if they do not already exist.
+init_db()
+
+
+def login_required(view_function):
+    """Require an authenticated user before opening a protected page."""
+    @wraps(view_function)
+    def wrapper(*args, **kwargs):
+        if "user_id" not in session:
+            flash("Please log in to continue.", "warning")
+            return redirect(url_for("login"))
+        return view_function(*args, **kwargs)
+    return wrapper
+
+
+# =========================================================
+# AUTHENTICATION: REGISTER, LOGIN, LOGOUT, DASHBOARD
+# =========================================================
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if "user_id" in session:
+        return redirect(url_for("dashboard"))
+
+    if request.method == "POST":
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
+        confirm_password = request.form.get("confirm_password", "")
+
+        if not email or not password or not confirm_password:
+            flash("All fields are required.", "error")
+            return redirect(url_for("register"))
+
+        if len(password) < 12:
+            flash("Password must contain at least 12 characters.", "error")
+            return redirect(url_for("register"))
+
+        if password != confirm_password:
+            flash("Passwords do not match.", "error")
+            return redirect(url_for("register"))
+
+        if create_user(email, password):
+            flash("Account created successfully. Please log in.", "success")
+            return redirect(url_for("login"))
+
+        flash("An account with this email already exists.", "error")
+        return redirect(url_for("register"))
+
+    return render_template("register.html")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if "user_id" in session:
+        return redirect(url_for("dashboard"))
+
+    if request.method == "POST":
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
+        user = verify_user(email, password)
+
+        if user:
+            session.clear()
+            session["user_id"] = user["id"]
+            session["user_email"] = user["email"]
+            return redirect(url_for("dashboard"))
+
+        flash("Invalid email or password.", "error")
+
+    return render_template("login.html")
+
+
+@app.route("/logout", methods=["POST"])
+@login_required
+def logout():
+    session.clear()
+    flash("You have logged out successfully.", "success")
+    return redirect(url_for("login"))
+
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    scans = get_user_scans(session["user_id"])
+    return render_template(
+        "dashboard.html",
+        scans=scans,
+        user_email=session.get("user_email", "")
+    )
 
 
 # =========================================================
@@ -501,6 +607,7 @@ def predict_hybrid_url(url):
 # =========================================================
 
 @app.route("/")
+@login_required
 def home():
 
     return render_template(
@@ -516,6 +623,7 @@ def home():
     "/check",
     methods=["POST"]
 )
+@login_required
 def check():
 
     url = request.form.get(
@@ -824,6 +932,21 @@ def check():
     )
 
     # -----------------------------------------------------
+    # SAVE URL SCAN TO THE LOGGED-IN USER'S HISTORY
+    # -----------------------------------------------------
+
+    save_scan(
+        session["user_id"],
+        "Website URL",
+        url,
+        final_risk_score,
+        risk_level,
+        ai_status,
+        phishing_probability_percent,
+        explanation
+    )
+
+    # -----------------------------------------------------
     # SEND RESULTS TO RESULT PAGE
     # -----------------------------------------------------
 
@@ -877,6 +1000,7 @@ def check():
     "/check-email",
     methods=["POST"]
 )
+@login_required
 def check_email():
 
     email_text = request.form.get(
@@ -1205,6 +1329,21 @@ def check_email():
     )
 
     # -----------------------------------------------------
+    # SAVE EMAIL SCAN TO THE LOGGED-IN USER'S HISTORY
+    # -----------------------------------------------------
+
+    save_scan(
+        session["user_id"],
+        "Email",
+        email_text,
+        risk_score,
+        risk_level,
+        ai_status,
+        email_phishing_probability_percent,
+        explanation
+    )
+
+    # -----------------------------------------------------
     # RESULT PAGE
     # -----------------------------------------------------
 
@@ -1258,6 +1397,7 @@ def check_email():
     "/download-report",
     methods=["POST"]
 )
+@login_required
 def download_report():
 
     input_type = request.form.get(

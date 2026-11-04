@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | PhishGuard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    rgba(0, 15, 11, 0.18),
+                    rgba(0, 15, 11, 0.35)
+                ),
+                url("{{ url_for('static', filename='images/cyber-bg.png') }}");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            min-height: 75px;
+            padding: 14px 5%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+
+            background: rgba(0, 20, 14, 0.88);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(0, 255, 170, 0.25);
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .brand span {
+            color: #20efa8;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            color: #d4eee2;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #20efa8;
+        }
+
+        .logout-btn {
+            padding: 10px 17px;
+            border: none;
+            border-radius: 8px;
+
+            background: linear-gradient(90deg, #079b70, #08d69a);
+            color: white;
+
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 40px auto;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            font-size: 32px;
+            margin-bottom: 9px;
+        }
+
+        .welcome h1 span {
+            color: #29efa9;
+        }
+
+        .welcome p {
+            color: #c6e5d7;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .user-email {
+            color: #53edb5;
+            font-weight: 600;
+        }
+
+        .glass {
+            background: rgba(0, 28, 20, 0.84);
+            backdrop-filter: blur(14px);
+
+            border: 1px solid rgba(0, 255, 170, 0.22);
+            border-radius: 17px;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            padding: 23px;
+            transition: 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 255, 170, 0.55);
+        }
+
+        .stat-label {
+            color: #b6d9c8;
+            font-size: 13px;
+            margin-bottom: 13px;
+        }
+
+        .stat-value {
+            font-size: 34px;
+            font-weight: 800;
+        }
+
+        .green {
+            color: #35edaa;
+        }
+
+        .yellow {
+            color: #ffd166;
+        }
+
+        .red {
+            color: #ff777e;
+        }
+
+        .blue {
+            color: #65caff;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 22px;
+        }
+
+        .scan-btn {
+            display: inline-block;
+            padding: 11px 17px;
+
+            border-radius: 9px;
+            background: linear-gradient(90deg, #079b70, #08d69a);
+
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .history-card {
+            padding: 25px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th {
+            padding: 15px 12px;
+            text-align: left;
+
+            color: #69eeb9;
+            font-size: 12px;
+            text-transform: uppercase;
+
+            border-bottom: 1px solid rgba(0, 255, 170, 0.2);
+        }
+
+        td {
+            padding: 16px 12px;
+
+            color: #e0f4e9;
+            font-size: 13px;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .scan-input {
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .risk-high {
+            color: #ff9da3;
+            background: rgba(255, 65, 80, 0.16);
+            border: 1px solid rgba(255, 90, 100, 0.4);
+        }
+
+        .risk-medium {
+            color: #ffdc91;
+            background: rgba(255, 190, 50, 0.15);
+            border: 1px solid rgba(255, 190, 50, 0.35);
+        }
+
+        .risk-low {
+            color: #76f5be;
+            background: rgba(0, 220, 145, 0.14);
+            border: 1px solid rgba(0, 255, 170, 0.3);
+        }
+
+        .empty-state {
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 43px;
+            margin-bottom: 15px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #b6d9c8;
+            font-size: 14px;
+            margin-bottom: 22px;
+        }
+
+        .footer {
+            padding: 30px 10px;
+            text-align: center;
+
+            color: #c1e3d2;
+            font-size: 12px;
+        }
+
+        @media (max-width: 850px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                padding: 18px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .welcome h1 {
+                font-size: 26px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 17px;
+            }
+
+            .stat-value {
+                font-size: 27px;
+            }
+
+            .history-card {
+                padding: 15px;
+            }
+
+            .section-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <nav class="navbar">
+
+        <div class="brand">
+            🛡️ Phish<span>Guard</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">
+                Scanner
+            </a>
+
+            <a href="{{ url_for('dashboard') }}">
+                Dashboard
+            </a>
+
+            <form method="POST"
+                  action="{{ url_for('logout') }}"
+                  style="margin: 0;">
+
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+
+            </form>
+
+        </div>
+
+    </nav>
+
+
+    <!-- DASHBOARD -->
+
+    <main class="container">
+
+        <section class="welcome">
+
+            <h1>
+                Welcome back, <span>PhishGuard User!</span>
+            </h1>
+
+            <p>
+                Your personal security overview and scan history.
+            </p>
+
+            <p class="user-email">
+                {{ user_email }}
+            </p>
+
+        </section>
+
+
+        <!-- CALCULATE STATISTICS -->
+
+        {% set ns = namespace(
+            total=0,
+            websites=0,
+            emails=0,
+            high=0,
+            medium=0,
+            low=0
+        ) %}
+
+        {% for scan in scans %}
+
+            {% set ns.total = ns.total + 1 %}
+
+            {% if scan['input_type'] == 'Website URL' %}
+                {% set ns.websites = ns.websites + 1 %}
+            {% elif scan['input_type'] == 'Email' %}
+                {% set ns.emails = ns.emails + 1 %}
+            {% endif %}
+
+            {% if scan['risk_level']|lower == 'high' %}
+                {% set ns.high = ns.high + 1 %}
+            {% elif scan['risk_level']|lower == 'medium' %}
+                {% set ns.medium = ns.medium + 1 %}
+            {% elif scan['risk_level']|lower == 'low' %}
+                {% set ns.low = ns.low + 1 %}
+            {% endif %}
+
+        {% endfor %}
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats">
+
+            <div class="stat-card glass">
+
+                <div class="stat-label">
+                    Total Scans
+                </div>
+
+                <div class="stat-value blue">
+                    {{ ns.total }}
+                </div>
+
+            </div>
+
+
+            <div class="stat-card glass">
+
+                <div class="stat-label">
+                    Website Scans
+                </div>
+
+                <div class="stat-value green">
+                    {{ ns.websites }}
+                </div>
+
+            </div>
+
+
+            <div class="stat-card glass">
+
+                <div class="stat-label">
+                    Email Scans
+                </div>
+
+                <div class="stat-value blue">
+                    {{ ns.emails }}
+                </div>
+
+            </div>
+
+
+            <div class="stat-card glass">
+
+                <div class="stat-label">
+                    High-Risk Scans
+                </div>
+
+                <div class="stat-value red">
+                    {{ ns.high }}
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SCAN HISTORY -->
+
+        <section class="history-card glass">
+
+            <div class="section-header">
+
+                <h2>📊 Recent Scan History</h2>
+
+                <a href="{{ url_for('home') }}" class="scan-btn">
+                    + New Scan
+                </a>
+
+            </div>
+
+
+            {% if scans %}
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Scan Type</th>
+                                <th>Analyzed Input</th>
+                                <th>Risk Score</th>
+                                <th>Risk Level</th>
+                                <th>Date</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for scan in scans %}
+
+                                <tr>
+
+                                    <td>
+                                        {% if scan['input_type'] == 'Email' %}
+                                            📧 Email
+                                        {% else %}
+                                            🌐 Website
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="scan-input"
+                                        title="{{ scan['analyzed_input'] }}">
+
+                                        {{ scan['analyzed_input'] }}
+
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            {{ scan['risk_score'] }}/100
+                                        </strong>
+                                    </td>
+
+                                    <td>
+
+                                        {% set risk = scan['risk_level']|lower %}
+
+                                        {% if risk == 'high' %}
+
+                                            <span class="risk-badge risk-high">
+                                                HIGH
+                                            </span>
+
+                                        {% elif risk == 'medium' %}
+
+                                            <span class="risk-badge risk-medium">
+                                                MEDIUM
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="risk-badge risk-low">
+                                                LOW
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+                                        {{ scan['created_at'] }}
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        🔍
+                    </div>
+
+                    <h3>No Scans Yet</h3>
+
+                    <p>
+                        Your scan history will appear here after
+                        your first website or email analysis.
+                    </p>
+
+                    <a href="{{ url_for('home') }}" class="scan-btn">
+                        Start Your First Scan
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <footer class="footer">
+
+            PhishGuard • AI-Based Phishing Website & Email Detection
+
+        </footer>
+
+    </main>
+
+</body>
+</html>
